@@ -78,6 +78,13 @@
 	///Skill multiplier list, just slap your multiplier change onto this with the type it is coming from as key.
 	var/list/experience_multiplier_reasons = list()
 
+	///stimulant addiction level,
+	var/addiction_stimulant = 0
+	var/addiction_opiod = 0
+	var/addiction_alcohol = 0
+	var/addiction_hallucinogen = 0
+	var/addiction_maint = 0
+
 /datum/mind/New(key)
 	src.key = key
 	soulOwner = src

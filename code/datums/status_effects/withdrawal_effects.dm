@@ -41,7 +41,8 @@
 
 	if(addiction_ticks > 90)
 		owner.Jitter(30)
-		owner.hallucinate
+		if(prob(25))
+			owner.hallucination += 5
 
 	if(addiction_ticks > 180)
 		owner.Jitter(50)
