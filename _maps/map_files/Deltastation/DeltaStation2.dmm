@@ -4577,11 +4577,6 @@
 /area/maintenance/starboard/fore)
 "amD" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/item/flashlight,
-/obj/effect/spawner/lootdrop/maintenance,
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -4589,6 +4584,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plasteel,
 /area/maintenance/starboard/fore)
 "amE" = (
@@ -7242,8 +7238,7 @@
 /obj/machinery/light/small{
 	dir = 1
 	},
-/obj/structure/closet/crate,
-/obj/effect/spawner/lootdrop/maintenance/three,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
 "arW" = (
@@ -7735,16 +7730,13 @@
 /turf/open/floor/plasteel,
 /area/maintenance/port/fore)
 "asU" = (
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/effect/spawner/lootdrop/maintenance/two,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
 	},
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plating,
 /area/maintenance/port/fore)
 "asV" = (
@@ -9189,15 +9181,11 @@
 /turf/open/floor/plating,
 /area/maintenance/port/fore)
 "avq" = (
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/item/crowbar/red,
-/obj/effect/spawner/lootdrop/maintenance,
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plasteel,
 /area/maintenance/port/fore)
 "avr" = (
@@ -10788,8 +10776,6 @@
 /area/quartermaster/warehouse)
 "ayo" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate,
-/obj/effect/spawner/lootdrop/maintenance,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -10800,6 +10786,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
 	},
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plasteel,
 /area/quartermaster/warehouse)
 "ayp" = (
@@ -11103,8 +11090,7 @@
 /turf/open/floor/plating,
 /area/maintenance/port/fore)
 "ayT" = (
-/obj/structure/closet/crate,
-/obj/effect/spawner/lootdrop/maintenance/two,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plating,
 /area/maintenance/port/fore)
 "ayU" = (
@@ -11402,8 +11388,7 @@
 /area/quartermaster/warehouse)
 "azr" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate/internals,
-/obj/effect/spawner/lootdrop/maintenance,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plating,
 /area/quartermaster/warehouse)
 "azs" = (
@@ -12532,10 +12517,7 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/warehouse)
 "aBN" = (
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/effect/spawner/lootdrop/maintenance/two,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plating,
 /area/quartermaster/warehouse)
 "aBO" = (
@@ -13136,10 +13118,9 @@
 /area/quartermaster/warehouse)
 "aCW" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate,
-/obj/effect/spawner/lootdrop/maintenance/two,
 /obj/structure/cable,
 /obj/effect/turf_decal/bot,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plasteel,
 /area/quartermaster/warehouse)
 "aCX" = (
@@ -30753,12 +30734,8 @@
 /area/engine/atmos)
 "bjo" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/item/flashlight,
-/obj/effect/spawner/lootdrop/maintenance,
 /obj/effect/turf_decal/bot,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plasteel,
 /area/maintenance/port/fore)
 "bjp" = (
@@ -56271,11 +56248,6 @@
 	},
 /turf/open/floor/plasteel,
 /area/maintenance/port)
-"ccm" = (
-/obj/structure/closet/crate,
-/obj/effect/spawner/lootdrop/maintenance/three,
-/turf/open/floor/plating,
-/area/maintenance/port)
 "ccn" = (
 /obj/structure/table/wood,
 /obj/machinery/computer/libraryconsole,
@@ -60783,12 +60755,8 @@
 /turf/open/floor/plasteel,
 /area/maintenance/starboard)
 "clv" = (
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
 /obj/effect/decal/cleanable/dirt,
-/obj/item/flashlight,
-/obj/effect/spawner/lootdrop/maintenance,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plating,
 /area/maintenance/starboard)
 "clw" = (
@@ -65121,15 +65089,9 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard)
 "cuH" = (
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/item/clothing/shoes/jackboots,
-/obj/item/radio,
-/obj/item/storage/secure/briefcase,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
-/obj/effect/spawner/lootdrop/maintenance/two,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plating,
 /area/maintenance/starboard)
 "cuI" = (
@@ -67397,10 +67359,7 @@
 /turf/open/floor/plasteel,
 /area/maintenance/starboard)
 "cza" = (
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/effect/spawner/lootdrop/maintenance/two,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plating,
 /area/maintenance/starboard)
 "czb" = (
@@ -68346,15 +68305,12 @@
 /turf/open/floor/plating,
 /area/maintenance/port)
 "cAY" = (
-/obj/structure/rack,
-/obj/item/clothing/gloves/color/black,
-/obj/item/wrench,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/light/small{
 	dir = 1
 	},
-/obj/effect/spawner/lootdrop/maintenance,
 /obj/effect/turf_decal/bot,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plasteel,
 /area/maintenance/port)
 "cAZ" = (
@@ -73056,17 +73012,13 @@
 /area/maintenance/port)
 "cJM" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/item/flashlight,
-/obj/effect/spawner/lootdrop/maintenance,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plasteel{
 	heat_capacity = 1e+006
 	},
@@ -73954,8 +73906,6 @@
 /area/maintenance/port)
 "cLC" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate,
-/obj/effect/spawner/lootdrop/maintenance/two,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -73969,6 +73919,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
 	},
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plasteel,
 /area/maintenance/port)
 "cLD" = (
@@ -74668,11 +74619,7 @@
 /turf/open/floor/plasteel/dark/telecomms,
 /area/science/xenobiology)
 "cNj" = (
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/item/flashlight,
-/obj/effect/spawner/lootdrop/maintenance,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plating,
 /area/maintenance/port)
 "cNk" = (
@@ -80449,15 +80396,13 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/aft)
 "cYn" = (
-/obj/structure/closet/crate,
-/obj/item/storage/box/donkpockets,
-/obj/effect/spawner/lootdrop/maintenance,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plasteel{
 	heat_capacity = 1e+006
 	},
@@ -83168,9 +83113,7 @@
 /area/medical/medbay/central)
 "ddl" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate,
-/obj/item/retractor,
-/obj/effect/spawner/lootdrop/maintenance,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plating,
 /area/maintenance/starboard/aft)
 "ddm" = (
@@ -83343,16 +83286,12 @@
 /turf/open/floor/plasteel/dark,
 /area/science/xenobiology)
 "ddS" = (
-/obj/structure/table,
-/obj/item/paper_bin,
-/obj/item/pen,
 /obj/machinery/firealarm{
 	dir = 4;
 	pixel_x = -24
 	},
-/obj/item/storage/bag/bio,
-/obj/item/storage/bag/bio,
 /obj/effect/turf_decal/bot,
+/obj/structure/closet/secure_closet/cytology,
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
 "ddT" = (
@@ -83858,14 +83797,13 @@
 /turf/open/floor/plasteel,
 /area/maintenance/port)
 "deY" = (
-/obj/structure/closet/crate,
-/obj/effect/spawner/lootdrop/maintenance/three,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plasteel,
 /area/maintenance/port)
 "deZ" = (
@@ -91166,15 +91104,11 @@
 /turf/open/floor/plasteel,
 /area/maintenance/starboard/aft)
 "dvQ" = (
-/obj/structure/rack,
 /obj/effect/decal/cleanable/dirt,
-/obj/item/weldingtool,
-/obj/item/assembly/voice,
-/obj/item/clothing/head/welding,
-/obj/effect/spawner/lootdrop/maintenance,
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plasteel,
 /area/maintenance/starboard/aft)
 "dvR" = (
@@ -93856,11 +93790,6 @@
 /area/maintenance/starboard/aft)
 "dCR" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/item/flashlight,
-/obj/effect/spawner/lootdrop/maintenance,
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
@@ -93871,6 +93800,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
 	},
+/obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plasteel,
 /area/maintenance/starboard/aft)
 "dCS" = (
@@ -97181,9 +97111,7 @@
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/central)
 "dJp" = (
-/obj/structure/closet/crate,
-/obj/effect/spawner/lootdrop/costume,
-/obj/effect/spawner/lootdrop/maintenance,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plating,
 /area/maintenance/starboard/aft)
 "dJq" = (
@@ -98005,14 +97933,11 @@
 /area/maintenance/aft)
 "dLc" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/effect/spawner/lootdrop/maintenance/two,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /obj/structure/cable,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plating,
 /area/maintenance/aft)
 "dLd" = (
@@ -98381,11 +98306,7 @@
 /area/maintenance/port/aft)
 "dLT" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/item/crowbar/red,
-/obj/effect/spawner/lootdrop/maintenance/two,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
 "dLU" = (
@@ -98673,14 +98594,13 @@
 /area/maintenance/aft)
 "dMy" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate,
-/obj/effect/spawner/lootdrop/maintenance/two,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer1{
 	dir = 8
 	},
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plating,
 /area/maintenance/aft)
 "dMz" = (
@@ -102780,12 +102700,8 @@
 /area/library/abandoned)
 "dUX" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
-	},
-/obj/item/flashlight,
-/obj/effect/spawner/lootdrop/maintenance,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer3,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
 "dUY" = (
@@ -106824,7 +106740,7 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/oil,
 /obj/structure/cable,
-/obj/effect/turf_decal/stripes/line,
+/obj/effect/loot_site_spawner,
 /turf/open/floor/plasteel,
 /area/maintenance/port/aft)
 "eeq" = (
@@ -108139,6 +108055,12 @@
 	},
 /turf/open/floor/plasteel,
 /area/hallway/secondary/exit/departure_lounge)
+"eKq" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/closet,
+/obj/effect/spawner/lootdrop/maintenance/two,
+/turf/open/floor/plasteel,
+/area/maintenance/port/aft)
 "eMd" = (
 /obj/machinery/vending/cigarette,
 /obj/effect/decal/cleanable/cobweb/cobweb2,
@@ -112813,6 +112735,10 @@
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/plasteel,
 /area/security/prison)
+"sxV" = (
+/obj/effect/loot_site_spawner,
+/turf/open/floor/plating,
+/area/maintenance/port/aft)
 "sAm" = (
 /obj/machinery/light_switch{
 	pixel_x = 26
@@ -112955,6 +112881,11 @@
 	},
 /turf/open/floor/plasteel,
 /area/security/prison)
+"tbn" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/loot_site_spawner,
+/turf/open/floor/plating,
+/area/maintenance/port)
 "tbR" = (
 /obj/structure/table/reinforced,
 /obj/item/reagent_containers/food/drinks/soda_cans/thirteenloko,
@@ -144385,7 +144316,7 @@ bUo
 bWD
 bYO
 caE
-ccm
+cNj
 ced
 cea
 ced
@@ -145461,7 +145392,7 @@ djJ
 duE
 qdJ
 djF
-ceb
+tbn
 cjq
 dBZ
 cjq
@@ -147034,7 +146965,7 @@ dYu
 dZg
 ebR
 dLW
-ecQ
+eKq
 edl
 aad
 aaa
@@ -147291,7 +147222,7 @@ dLW
 dLW
 dLW
 ecv
-dNt
+sxV
 edl
 aad
 aad
@@ -160601,7 +160532,7 @@ cAm
 cZX
 cIW
 cHW
-cHW
+dJp
 vTA
 cSR
 oKQ
