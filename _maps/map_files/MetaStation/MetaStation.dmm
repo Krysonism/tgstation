@@ -61750,16 +61750,6 @@
 /area/science/xenobiology)
 "dcd" = (
 /obj/structure/table/glass,
-/obj/item/paper_bin{
-	pixel_y = 4
-	},
-/obj/item/folder/white{
-	pixel_x = 4;
-	pixel_y = 4
-	},
-/obj/item/pen{
-	pixel_x = -4
-	},
 /obj/machinery/requests_console{
 	department = "Science";
 	departmentType = 2;
@@ -61775,6 +61765,10 @@
 	},
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
+	},
+/obj/structure/microscope{
+	pixel_x = -1;
+	pixel_y = 1
 	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)

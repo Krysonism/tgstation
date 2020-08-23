@@ -37863,9 +37863,13 @@
 "bMq" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/table/glass,
-/obj/item/slime_scanner,
-/obj/item/clothing/gloves/color/latex,
-/obj/item/clothing/glasses/science,
+/obj/item/biopsy_tool{
+	pixel_x = -16
+	},
+/obj/structure/microscope{
+	pixel_x = -1;
+	pixel_y = 4
+	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
 "bMr" = (

@@ -26743,6 +26743,9 @@
 /obj/effect/turf_decal/tile/purple{
 	dir = 8
 	},
+/obj/item/reagent_containers/dropper{
+	pixel_y = 8
+	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "bqF" = (
@@ -50331,6 +50334,9 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/item/reagent_containers/glass/beaker{
+	pixel_x = -6
+	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
 "hPU" = (
@@ -53988,11 +53994,18 @@
 /area/science/genetics)
 "pfP" = (
 /obj/structure/table,
-/obj/item/storage/box/syringes,
+/obj/item/storage/box/syringes{
+	pixel_x = -3;
+	pixel_y = 5
+	},
 /obj/machinery/camera{
 	c_tag = "Xenobiology Computers";
 	dir = 4;
 	network = list("ss13","rd")
+	},
+/obj/item/biopsy_tool{
+	pixel_x = 8;
+	pixel_y = 2
 	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
@@ -55716,17 +55729,15 @@
 /area/science/explab)
 "tdB" = (
 /obj/structure/table,
-/obj/item/reagent_containers/glass/beaker,
-/obj/item/reagent_containers/dropper,
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/purple{
 	dir = 4
 	},
-/obj/item/clothing/glasses/science{
-	pixel_x = 0;
-	pixel_y = 9
+/obj/structure/microscope{
+	pixel_x = -1;
+	pixel_y = 4
 	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
@@ -56242,6 +56253,9 @@
 /obj/item/storage/box/monkeycubes{
 	pixel_x = 3;
 	pixel_y = 4
+	},
+/obj/item/reagent_containers/glass/beaker{
+	pixel_x = -6
 	},
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
