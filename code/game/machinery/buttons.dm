@@ -50,13 +50,12 @@
 		icon_state = "[skin]-p"
 	else
 		icon_state = skin
+		SSvis_overlays.add_vis_overlay(src, icon, "[skin]-light-mask", 0, EMISSIVE_PLANE, dir, alpha)
 
 /obj/machinery/button/update_overlays()
 	. = ..()
 	if(!panel_open)
 		return
-	if(device)
-		. += "button-device"
 	if(board)
 		. += "button-board"
 
