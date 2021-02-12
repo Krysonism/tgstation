@@ -13,6 +13,7 @@
 	description = "An illegal chemical compound used as drug."
 	color = "#60A584" // rgb: 96, 165, 132
 	overdose_threshold = 30
+	addiction_types = list(/datum/addiction/hallucinogens = 10) //4 per 2 seconds
 
 /datum/reagent/drug/space_drugs/on_mob_life(mob/living/carbon/M)
 	M.set_drugginess(15)
@@ -71,11 +72,11 @@
 
 /datum/reagent/drug/crank
 	name = "Crank"
-	description = "Reduces stun times by about 200%. If overdosed or addicted it will deal significant Toxin, Brute and Brain damage."
+	description = "Reduces stun times by about 200%. If overdosed it will deal significant Toxin, Brute and Brain damage."
 	reagent_state = LIQUID
 	color = "#FA00C8"
 	overdose_threshold = 20
-	addiction_types = list(/datum/addiction/stimulants = 100) //40 per 2 seconds
+	addiction_types = list(/datum/addiction/stimulants = 14) //5.6 per 2 seconds
 
 /datum/reagent/drug/crank/on_mob_life(mob/living/carbon/M)
 	if(prob(5))
@@ -91,10 +92,11 @@
 	. = 1
 /datum/reagent/drug/krokodil
 	name = "Krokodil"
-	description = "Cools and calms you down. If overdosed it will deal significant Brain and Toxin damage. If addicted it will begin to deal fatal amounts of Brute damage as the subject's skin falls off."
+	description = "Cools and calms you down. If overdosed it will deal significant Brain and Toxin damage."
 	reagent_state = LIQUID
 	color = "#0064B4"
 	overdose_threshold = 20
+	addiction_types = list(/datum/addiction/opioids = 18) //7.2 per 2 seconds
 
 
 /datum/reagent/drug/krokodil/on_mob_life(mob/living/carbon/M)
@@ -119,6 +121,7 @@
 	color = "#FAFAFA"
 	overdose_threshold = 20
 	metabolization_rate = 0.75 * REAGENTS_METABOLISM
+	addiction_types = list(/datum/addiction/stimulants = 12) //4.8 per 2 seconds
 
 /datum/reagent/drug/methamphetamine/on_mob_metabolize(mob/living/L)
 	..()
@@ -166,6 +169,7 @@
 	color = "#FAFAFA"
 	overdose_threshold = 20
 	taste_description = "salt" // because they're bathsalts?
+	addiction_types = list(/datum/addiction/stimulants = 25)  //8 per 2 seconds
 	var/datum/brain_trauma/special/psychotic_brawling/bath_salts/rage
 
 /datum/reagent/drug/bath_salts/on_mob_metabolize(mob/living/L)
@@ -214,6 +218,7 @@
 	description = "Amps you up, gets you going, and rapidly restores stamina damage. Side effects include breathlessness and toxicity."
 	reagent_state = LIQUID
 	color = "#78FFF0"
+	addiction_types = list(/datum/addiction/stimulants = 8)
 
 /datum/reagent/drug/aranesp/on_mob_life(mob/living/carbon/M)
 	var/high_message = pick("You feel amped up.", "You feel ready.", "You feel like you can push it to the limit.")
@@ -234,6 +239,7 @@
 	color = "#EE35FF"
 	overdose_threshold = 20
 	taste_description = "paint thinner"
+	addiction_types = list(/datum/addiction/hallucinogens = 18)
 
 /datum/reagent/drug/happiness/on_mob_metabolize(mob/living/L)
 	..()
@@ -277,6 +283,7 @@
 	color = "#e38e44"
 	metabolization_rate = 2 * REAGENTS_METABOLISM
 	overdose_threshold = 30
+	addiction_types = list(/datum/addiction/stimulants = 6) //2.6 per 2 seconds
 
 /datum/reagent/drug/pumpup/on_mob_metabolize(mob/living/L)
 	..()
@@ -326,6 +333,7 @@
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = 15
 	can_synth = TRUE
+	addiction_types = list(/datum/addiction/maintenance_drugs = 14)
 
 /datum/reagent/drug/maint/powder/on_mob_life(mob/living/carbon/M)
 	. = ..()
@@ -352,6 +360,7 @@
 	metabolization_rate = 2 * REAGENTS_METABOLISM
 	overdose_threshold = 25
 	can_synth = TRUE
+	addiction_types = list(/datum/addiction/maintenance_drugs = 8)
 
 /datum/reagent/drug/maint/sludge/on_mob_metabolize(mob/living/L)
 
@@ -384,6 +393,7 @@
 	color = "#000000"
 	overdose_threshold = 30
 	can_synth = TRUE
+	addiction_types = list(/datum/addiction/maintenance_drugs = 5)
 
 /datum/reagent/drug/maint/tar/on_mob_life(mob/living/carbon/M)
 	. = ..()
