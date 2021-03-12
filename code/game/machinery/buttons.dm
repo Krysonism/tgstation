@@ -171,13 +171,12 @@
 		return
 
 	use_power(5)
-	icon_state = "[skin]1"
+	flick("[icon_state]1", src)
 
 	if(device)
 		device.pulsed()
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_BUTTON_PRESSED,src)
 
-	addtimer(CALLBACK(src, /atom/.proc/update_icon), 15)
 
 /obj/machinery/button/door
 	name = "door button"
