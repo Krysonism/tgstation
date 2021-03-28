@@ -8,10 +8,6 @@
 	base_icon_state = "ticketmachine"
 	desc = "A marvel of bureaucratic engineering encased in an efficient plastic shell. It can be refilled with a hand labeler refill roll and linked to buttons with a multitool."
 	density = FALSE
-	maptext_height = 10
-	maptext_width = 22
-	maptext_x = 5
-	maptext_y = 12
 	layer = HIGH_OBJ_LAYER
 	var/ticket_number = 0 //Increment the ticket number whenever the HOP presses his button
 	var/current_number = 0 //What ticket number are we currently serving?
