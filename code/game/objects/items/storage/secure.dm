@@ -114,7 +114,7 @@
 	if(!SEND_SIGNAL(src, COMSIG_CONTAINS_STORAGE))
 		return
 	if(SEND_SIGNAL(src, COMSIG_IS_STORAGE_LOCKED))
-		icon_state = initial(icon_state)
+		icon_state = "[initial(icon_state)]_locked"
 	else
 		icon_state = "[initial(icon_state)]_open"
 		if(has_door)
