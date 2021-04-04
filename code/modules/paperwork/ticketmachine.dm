@@ -45,7 +45,6 @@
 
 /obj/machinery/ticket_machine/Initialize()
 	. = ..()
-	AddElement(/datum/element/wall_mount)
 	update_icon()
 
 /obj/machinery/ticket_machine/proc/increment()
