@@ -12,15 +12,14 @@
 // -----------------------------
 /obj/item/storage/secure
 	name = "secstorage"
-	var/icon_locking = "secureb"
-	var/icon_sparking = "securespark"
-	var/icon_opened = "secure0"
 	var/code = ""
 	var/l_code = null
 	var/l_set = FALSE
 	var/l_setshort = FALSE
 	var/l_hacking = FALSE
-	var/open = FALSE
+	var/panel_open = FALSE
+	///this var decides if we want to apply a door overlay.
+	var/has_door = FALSE
 	w_class = WEIGHT_CLASS_NORMAL
 	desc = "This shouldn't exist. If it does, create an issue report."
 
@@ -32,19 +31,19 @@
 
 /obj/item/storage/secure/examine(mob/user)
 	. = ..()
-	. += "The service panel is currently <b>[open ? "unscrewed" : "screwed shut"]</b>."
+	. += "The service panel is currently <b>[panel_open ? "unscrewed" : "screwed shut"]</b>."
 
 /obj/item/storage/secure/attackby(obj/item/W, mob/user, params)
 	if(SEND_SIGNAL(src, COMSIG_IS_STORAGE_LOCKED))
 		if (W.tool_behaviour == TOOL_SCREWDRIVER)
 			if (W.use_tool(src, user, 20))
-				open =! open
-				to_chat(user, "<span class='notice'>You [open ? "open" : "close"] the service panel.</span>")
+				panel_open =! panel_open
+				to_chat(user, "<span class='notice'>You [panel_open ? "open" : "close"] the service panel.</span>")
 			return
 		if (W.tool_behaviour == TOOL_WIRECUTTER)
 			to_chat(user, "<span class='danger'>[src] is protected from this sort of tampering, yet it appears the internal memory wires can still be <b>pulsed</b>.</span>")
 		if ((W.tool_behaviour == TOOL_MULTITOOL) && (!l_hacking))
-			if(open == TRUE)
+			if(panel_open == TRUE)
 				to_chat(user, "<span class='danger'>Now attempting to reset internal memory, please hold.</span>")
 				l_hacking = TRUE
 				if (W.use_tool(src, user, 400))
@@ -89,15 +88,14 @@
 				l_set = TRUE
 			else if ((code == l_code) && l_set)
 				SEND_SIGNAL(src, COMSIG_TRY_STORAGE_SET_LOCKSTATE, FALSE)
-				cut_overlays()
-				add_overlay(icon_opened)
+				update_icon()
 				code = null
 			else
 				code = "ERROR"
 		else
 			if ((href_list["type"] == "R") && (!l_setshort))
 				SEND_SIGNAL(src, COMSIG_TRY_STORAGE_SET_LOCKSTATE, TRUE)
-				cut_overlays()
+				update_icon()
 				code = null
 				SEND_SIGNAL(src, COMSIG_TRY_STORAGE_HIDE_FROM, usr)
 			else
@@ -111,6 +109,21 @@
 			return
 	return
 
+/obj/item/storage/secure/update_icon()
+	cut_overlays()
+	if(!SEND_SIGNAL(src, COMSIG_CONTAINS_STORAGE))
+		return
+	if(SEND_SIGNAL(src, COMSIG_IS_STORAGE_LOCKED))
+		icon_state = initial(icon_state)
+	else
+		icon_state = "[initial(icon_state)]_open"
+		if(has_door)
+			var/mutable_appearance/door_overlay = mutable_appearance(icon, "[initial(icon_state)]_door")
+			if(dir == SOUTH)
+				door_overlay.pixel_y = -1
+			else if(dir == WEST)
+				door_overlay.pixel_y = -6
+			add_overlay(door_overlay)
 
 // -----------------------------
 //        Secure Briefcase
@@ -159,15 +172,17 @@
 /obj/item/storage/secure/safe
 	name = "secure safe"
 	icon = 'icons/obj/storage.dmi'
-	icon_state = "safe"
-	icon_opened = "safe0"
-	icon_locking = "safeb"
-	icon_sparking = "safespark"
+	icon_state = "wall_safe"
 	desc = "Excellent for securing things away from grubby hands."
 	force = 8
 	w_class = WEIGHT_CLASS_GIGANTIC
 	anchored = TRUE
 	density = FALSE
+	has_door = TRUE
+
+/obj/item/storage/secure/safe/Initialize()
+	. = ..()
+	AddElement(/datum/element/wall_mount)
 
 /obj/item/storage/secure/safe/ComponentInitialize()
 	. = ..()
@@ -184,6 +199,8 @@
 	if(.)
 		return
 	return attack_self(user)
+
+
 
 /obj/item/storage/secure/safe/hos
 	name = "head of security's safe"
