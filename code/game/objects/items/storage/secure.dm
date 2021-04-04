@@ -24,6 +24,11 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	desc = "This shouldn't exist. If it does, create an issue report."
 
+/obj/item/storage/secure/Initialize()¨
+	. = ..()
+	if(SEND_SIGNAL(src, COMSIG_IS_STORAGE_LOCKED))
+		icon_state = "[initial(icon_state)]_locked"
+
 /obj/item/storage/secure/ComponentInitialize()
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
@@ -33,7 +38,7 @@
 /obj/item/storage/secure/examine(mob/user)
 	. = ..()
 	if(can_hack_open)
-	. += "The service panel is currently <b>[panel_open ? "unscrewed" : "screwed shut"]</b>."
+		. += "The service panel is currently <b>[panel_open ? "unscrewed" : "screwed shut"]</b>."
 
 /obj/item/storage/secure/attackby(obj/item/W, mob/user, params)
 	if(can_hack_open && SEND_SIGNAL(src, COMSIG_IS_STORAGE_LOCKED))
@@ -225,7 +230,6 @@ There appears to be a small amount of surface corrosion. It doesn't look like it
 	can_hack_open = FALSE
 	armor = list(MELEE = 100, BULLET = 100, LASER = 100, ENERGY = 100, BOMB = 70, BIO = 100, RAD = 100, FIRE = 80, ACID = 70)
 	max_integrity = 300
-	color = "#ffdd33"
 
 /obj/item/storage/secure/safe/caps_spare/Initialize()
 	. = ..()
