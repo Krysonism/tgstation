@@ -24,7 +24,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	desc = "This shouldn't exist. If it does, create an issue report."
 
-/obj/item/storage/secure/Initialize()¨
+/obj/item/storage/secure/Initialize()
 	. = ..()
 	if(SEND_SIGNAL(src, COMSIG_IS_STORAGE_LOCKED))
 		icon_state = "[initial(icon_state)]_locked"
