@@ -16,6 +16,10 @@
 	///sign_change_name is used to make nice looking, alphebetized and categorized names when you use a pen on any sign item or structure which is_editable.
 	var/sign_change_name
 
+/obj/structure/sign/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/wall_mount)
+
 /obj/structure/sign/blank //This subtype is necessary for now because some other things (posters, picture frames, paintings) inheret from the parent type.
 	icon_state = "backing"
 	name = "sign backing"
@@ -47,7 +51,7 @@
 	M.Turn(90)
 	transform = M
 
-/obj/structure/sign/attack_hand(mob/user)
+/obj/structure/sign/attack_hand(mob/user, list/modifiers)
 	. = ..()
 	if(. || user.is_blind())
 		return
@@ -93,7 +97,7 @@
 
 /obj/structure/sign/welder_act(mob/living/user, obj/item/I)
 	. = ..()
-	if(user.a_intent == INTENT_HARM)
+	if(user.combat_mode)
 		return FALSE
 	if(obj_integrity == max_integrity)
 		to_chat(user, "<span class='warning'>This sign is already in perfect condition.</span>")
@@ -111,7 +115,7 @@
 
 /obj/item/sign/welder_act(mob/living/user, obj/item/I)
 	. = ..()
-	if(user.a_intent == INTENT_HARM)
+	if(user.combat_mode)
 		return FALSE
 	if(obj_integrity == max_integrity)
 		to_chat(user, "<span class='warning'>This sign is already in perfect condition.</span>")
@@ -195,14 +199,6 @@
 	var/obj/structure/sign/placed_sign = new sign_path(user_turf) //We place the sign on the turf the user is standing, and pixel shift it to the target wall, as below.
 	//This is to mimic how signs and other wall objects are usually placed by mappers, and so they're only visible from one side of a wall.
 	var/dir = get_dir(user_turf, target_turf)
-	if(dir & NORTH)
-		placed_sign.pixel_y = 32
-	else if(dir & SOUTH)
-		placed_sign.pixel_y = -32
-	if(dir & EAST)
-		placed_sign.pixel_x = 32
-	else if(dir & WEST)
-		placed_sign.pixel_x = -32
 	user.visible_message("<span class='notice'>[user] fastens [src] to [target_turf].</span>", \
 		"<span class='notice'>You attach the sign to [target_turf].</span>")
 	playsound(target_turf, 'sound/items/deconstruct.ogg', 50, TRUE)

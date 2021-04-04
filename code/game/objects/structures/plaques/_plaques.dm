@@ -31,7 +31,11 @@
 	///Custom plaque structures and items both start "unengraved", once engraved with a fountain pen their text can't be altered again.
 	var/engraved = FALSE
 
-/obj/structure/plaque/attack_hand(mob/user)
+/obj/structure/plaque/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/wall_mount)
+
+/obj/structure/plaque/attack_hand(mob/user, list/modifiers)
 	. = ..()
 	if(. || user.is_blind())
 		return
@@ -60,7 +64,7 @@
 
 /obj/structure/plaque/welder_act(mob/living/user, obj/item/I)
 	. = ..()
-	if(user.a_intent == INTENT_HARM)
+	if(user.combat_mode)
 		return FALSE
 	if(obj_integrity == max_integrity)
 		to_chat(user, "<span class='warning'>This plaque is already in perfect condition.</span>")
@@ -78,7 +82,7 @@
 
 /obj/item/plaque/welder_act(mob/living/user, obj/item/I)
 	. = ..()
-	if(user.a_intent == INTENT_HARM)
+	if(user.combat_mode)
 		return FALSE
 	if(obj_integrity == max_integrity)
 		to_chat(user, "<span class='warning'>This plaque is already in perfect condition.</span>")
@@ -117,6 +121,7 @@
 		engraved = TRUE //The plaque now has a name, description, and can't be altered again.
 		user.visible_message("<span class='notice'>[user] engraves [src].</span>", \
 			"<span class='notice'>You engrave [src].</span>")
+		icon_state = "goldenplaque"
 		return
 	if(istype(I, /obj/item/pen))
 		if(engraved)
@@ -167,14 +172,6 @@
 	var/obj/structure/plaque/placed_plaque = new plaque_path(user_turf) //We place the plaque on the turf the user is standing, and pixel shift it to the target wall, as below.
 	//This is to mimic how signs and other wall objects are usually placed by mappers, and so they're only visible from one side of a wall.
 	var/dir = get_dir(user_turf, target_turf)
-	if(dir & NORTH)
-		placed_plaque.pixel_y = 32
-	else if(dir & SOUTH)
-		placed_plaque.pixel_y = -32
-	if(dir & EAST)
-		placed_plaque.pixel_x = 32
-	else if(dir & WEST)
-		placed_plaque.pixel_x = -32
 	user.visible_message("<span class='notice'>[user] fastens [src] to [target_turf].</span>", \
 		"<span class='notice'>You attach [src] to [target_turf].</span>")
 	playsound(target_turf, 'sound/items/deconstruct.ogg', 50, TRUE)
