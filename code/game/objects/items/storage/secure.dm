@@ -24,16 +24,13 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	desc = "This shouldn't exist. If it does, create an issue report."
 
-/obj/item/storage/secure/Initialize()
-	. = ..()
-	if(SEND_SIGNAL(src, COMSIG_IS_STORAGE_LOCKED))
-		icon_state = "[initial(icon_state)]_locked"
-
 /obj/item/storage/secure/ComponentInitialize()
 	. = ..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_w_class = WEIGHT_CLASS_SMALL
 	STR.max_combined_w_class = 14
+	if(SEND_SIGNAL(src, COMSIG_IS_STORAGE_LOCKED))
+		icon_state = "[initial(icon_state)]_locked"
 
 /obj/item/storage/secure/examine(mob/user)
 	. = ..()
