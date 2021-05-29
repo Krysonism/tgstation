@@ -160,10 +160,10 @@
 		var/y = width - round((id - 1) / width)
 		var/x = ((id - 1) % width) + 1
 
-		var/x_start = 1 + (x - 1) * world.icon_size
-		var/x_end = x_start + world.icon_size - 1
-		var/y_start = 1 + ((y - 1) * world.icon_size)
-		var/y_end = y_start + world.icon_size - 1
+		var/x_start = 1 + (x - 1) * WORLD_ICON_SIZE_WIDTH
+		var/x_end = x_start + WORLD_ICON_SIZE_WIDTH - 1
+		var/y_start = 1 + ((y - 1) * WORLD_ICON_SIZE_VIRTUAL_HEIGHT)
+		var/y_end = y_start + WORLD_ICON_SIZE_VIRTUAL_HEIGHT - 1
 
 		var/icon/T = new(base_icon)
 		T.Crop(x_start,y_start,x_end,y_end)

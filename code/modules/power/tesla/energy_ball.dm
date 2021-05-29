@@ -148,7 +148,7 @@
 	var/icon/I = icon(icon, icon_state,dir)
 
 	var/orbitsize = (I.Width() + I.Height()) * pick(0.4, 0.5, 0.6, 0.7, 0.8)
-	orbitsize -= (orbitsize / world.icon_size) * (world.icon_size * 0.25)
+	orbitsize -= (orbitsize / WORLD_ICON_SIZE_WIDTH) * (WORLD_ICON_SIZE_WIDTH * 0.25)
 
 	miniball.orbit(src, orbitsize, pick(FALSE, TRUE), rand(10, 25), pick(3, 4, 5, 6, 36))
 

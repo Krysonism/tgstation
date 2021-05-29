@@ -9,3 +9,8 @@
 
 #define LOW_WALL_WITH_GRILLES (1<<0)
 #define LOW_WALL_WITH_WINDOW (1<<1)
+
+///remember to alter the actual world.icon_size if you change these
+#define WORLD_ICON_SIZE_WIDTH 32
+#define WORLD_ICON_SIZE_HEIGHT 24
+#define WORLD_ICON_SIZE_VIRTUAL_HEIGHT 32

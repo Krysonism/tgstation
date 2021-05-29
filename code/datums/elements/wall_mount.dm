@@ -13,7 +13,7 @@
 		//The wall mount template is made to work with them
 		switch(real_target.dir)
 			if(NORTH)
-				real_target.pixel_y = -8
+				real_target.pixel_y = 0
 			if(SOUTH)
 				real_target.pixel_y = 35
 			if(EAST)

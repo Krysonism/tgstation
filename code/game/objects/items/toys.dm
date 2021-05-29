@@ -1599,7 +1599,7 @@
 #define DISARM "disarm"
 #define GRAB "grab"
 #define HARM "harm"
-#define ICON_SPLIT world.icon_size/2
+#define ICON_SPLIT WORLD_ICON_SIZE_WIDTH/2
 
 // These states do not have any associated processing.
 #define STATE_AWAITING_PLAYER_INPUT "awaiting_player_input"

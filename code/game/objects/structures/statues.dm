@@ -363,7 +363,7 @@ Moving interrupts
 	//How long whole process takes
 	var/sculpting_time = 30 SECONDS
 	//Single interruptible progress period
-	var/sculpting_period = round(sculpting_time / world.icon_size) //this is just so it reveals pixels line by line for each.
+	var/sculpting_period = round(sculpting_time / WORLD_ICON_SIZE_VIRTUAL_HEIGHT) //this is just so it reveals pixels line by line for each.
 	var/interrupted = FALSE
 	var/remaining_time = sculpting_time - (prepared_block.completion * sculpting_time)
 
@@ -473,7 +473,7 @@ Moving interrupts
 		return FALSE
 	//No big icon things
 	var/icon/thing_icon = icon(target.icon, target.icon_state)
-	if(thing_icon.Height() != world.icon_size || thing_icon.Width() != world.icon_size)
+	if(thing_icon.Height() != WORLD_ICON_SIZE_VIRTUAL_HEIGHT || thing_icon.Width() != WORLD_ICON_SIZE_WIDTH)
 		return FALSE
 	return TRUE
 
@@ -508,7 +508,7 @@ Moving interrupts
 			remove_filter("partial_uncover")
 			target_appearance_with_filters = null
 		else
-			var/mask_offset = min(world.icon_size,round(completion * world.icon_size))
+			var/mask_offset = min(WORLD_ICON_SIZE_VIRTUAL_HEIGHT,round(completion * WORLD_ICON_SIZE_VIRTUAL_HEIGHT))
 			remove_filter("partial_uncover")
 			add_filter("partial_uncover", 1, alpha_mask_filter(icon = white, y = -mask_offset))
 			target_appearance_with_filters.filters = filter(type="alpha",icon=white,y=-mask_offset,flags=MASK_INVERSE)

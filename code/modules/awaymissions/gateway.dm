@@ -150,7 +150,7 @@ GLOBAL_LIST_EMPTY(gateway_destinations)
 	// 3x2 offset by one row
 	pixel_x = -32
 	pixel_y = -32
-	bound_height = 64
+	bound_height = 48 //Was 64
 	bound_width = 96
 	bound_x = -32
 	bound_y = 0

@@ -36,6 +36,6 @@
 	var/list/modifiers = params2list(params)
 	if(!LAZYACCESS(modifiers, ICON_X) || !LAZYACCESS(modifiers, ICON_Y))
 		return
-	I.pixel_x = clamp(text2num(LAZYACCESS(modifiers, ICON_X)) - 16, -(world.icon_size/2), world.icon_size/2)
-	I.pixel_y = clamp(text2num(LAZYACCESS(modifiers, ICON_Y)) - 16, -(world.icon_size/2), world.icon_size/2)
+	I.pixel_x = clamp(text2num(LAZYACCESS(modifiers, ICON_X)) - 16, -(WORLD_ICON_SIZE_WIDTH/2), WORLD_ICON_SIZE_WIDTH/2)
+	I.pixel_y = clamp(text2num(LAZYACCESS(modifiers, ICON_Y)) - 16, -(WORLD_ICON_SIZE_VIRTUAL_HEIGHT/2), WORLD_ICON_SIZE_VIRTUAL_HEIGHT/2)
 	return TRUE

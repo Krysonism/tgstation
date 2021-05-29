@@ -426,7 +426,7 @@
 	if(size_calc_target)
 		layer = size_calc_target.layer + 0.01
 		var/icon/I = icon(size_calc_target.icon, size_calc_target.icon_state, size_calc_target.dir)
-		size_matrix = matrix() * (I.Height()/world.icon_size)
+		size_matrix = matrix() * (I.Height()/WORLD_ICON_SIZE_VIRTUAL_HEIGHT)
 		transform = size_matrix //scale the bleed overlay's size based on the target's icon size
 	var/matrix/M = transform
 	if(shrink)

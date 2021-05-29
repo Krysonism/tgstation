@@ -16,6 +16,6 @@
 	SIGNAL_HANDLER
 	if(!hud || !hud.mymob.client.view_size) //Might not have been initialized by now
 		return
-	maptext_width = getviewsize(hud.mymob.client.view_size.getView())[1] * world.icon_size
+	maptext_width = getviewsize(hud.mymob.client.view_size.getView())[1] * WORLD_ICON_SIZE_WIDTH
 
 

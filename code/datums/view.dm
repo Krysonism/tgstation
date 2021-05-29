@@ -112,7 +112,7 @@
 				_y = -offset
 			if(WEST)
 				_x = -offset
-		animate(chief, pixel_x = world.icon_size*_x, pixel_y = world.icon_size*_y, 0, FALSE, LINEAR_EASING, ANIMATION_END_NOW)
+		animate(chief, pixel_x = WORLD_ICON_SIZE_WIDTH*_x, pixel_y = WORLD_ICON_SIZE_VIRTUAL_HEIGHT*_y, 0, FALSE, LINEAR_EASING, ANIMATION_END_NOW)
 	//Ready for this one?
 	setTo(radius)
 

@@ -201,8 +201,8 @@
 			dead_spotted += M
 		desc += M.get_photo_description(src)
 
-	var/psize_x = (size_x * 2 + 1) * world.icon_size
-	var/psize_y = (size_y * 2 + 1) * world.icon_size
+	var/psize_x = (size_x * 2 + 1) * WORLD_ICON_SIZE_WIDTH
+	var/psize_y = (size_y * 2 + 1) * WORLD_ICON_SIZE_VIRTUAL_HEIGHT
 	var/icon/get_icon = camera_get_icon(turfs, target_turf, psize_x, psize_y, clone_area, size_x, size_y, (size_x * 2 + 1), (size_y * 2 + 1))
 	qdel(clone_area)
 	get_icon.Blend("#000", ICON_UNDERLAY)

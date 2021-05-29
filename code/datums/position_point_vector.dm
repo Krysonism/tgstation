@@ -23,7 +23,7 @@
 	return ATAN2((b.y - a.y), (b.x - a.x))
 
 /// For positions with map x/y/z and pixel x/y so you don't have to return lists. Could use addition/subtraction in the future I guess.
-/datum/position	
+/datum/position
 	var/x = 0
 	var/y = 0
 	var/z = 0
@@ -68,7 +68,7 @@
 	return new /datum/point(src)
 
 /// A precise point on the map in absolute pixel locations based on world.icon_size. Pixels are FROM THE EDGE OF THE MAP!
-/datum/point		
+/datum/point
 	var/x = 0
 	var/y = 0
 	var/z = 0
@@ -83,7 +83,7 @@
 	return p
 
 /// First argument can also be a /datum/position or /atom.
-/datum/point/New(_x, _y, _z, _pixel_x = 0, _pixel_y = 0)	
+/datum/point/New(_x, _y, _z, _pixel_x = 0, _pixel_y = 0)
 	if(istype(_x, /datum/position))
 		var/datum/position/P = _x
 		_x = P.x
@@ -102,9 +102,9 @@
 
 /datum/point/proc/initialize_location(tile_x, tile_y, tile_z, p_x = 0, p_y = 0)
 	if(!isnull(tile_x))
-		x = ((tile_x - 1) * world.icon_size) + world.icon_size * 0.5 + p_x + 1
+		x = ((tile_x - 1) * WORLD_ICON_SIZE_WIDTH) + WORLD_ICON_SIZE_WIDTH * 0.5 + p_x + 1
 	if(!isnull(tile_y))
-		y = ((tile_y - 1) * world.icon_size) + world.icon_size * 0.5 + p_y + 1
+		y = ((tile_y - 1) * WORLD_ICON_SIZE_VIRTUAL_HEIGHT) + WORLD_ICON_SIZE_VIRTUAL_HEIGHT * 0.5 + p_y + 1
 	if(!isnull(tile_z))
 		z = tile_z
 
@@ -118,27 +118,27 @@
 	AM.pixel_y = return_py()
 
 /datum/point/proc/return_turf()
-	return locate(CEILING(x / world.icon_size, 1), CEILING(y / world.icon_size, 1), z)
+	return locate(CEILING(x / WORLD_ICON_SIZE_WIDTH, 1), CEILING(y / WORLD_ICON_SIZE_VIRTUAL_HEIGHT, 1), z)
 
 /datum/point/proc/return_coordinates() //[turf_x, turf_y, z]
-	return list(CEILING(x / world.icon_size, 1), CEILING(y / world.icon_size, 1), z)
+	return list(CEILING(x / WORLD_ICON_SIZE_WIDTH, 1), CEILING(y / WORLD_ICON_SIZE_VIRTUAL_HEIGHT, 1), z)
 
 /datum/point/proc/return_position()
 	return new /datum/position(src)
 
 /datum/point/proc/return_px()
-	return MODULUS(x, world.icon_size) - 16 - 1
+	return MODULUS(x, WORLD_ICON_SIZE_WIDTH) - 16 - 1
 
 /datum/point/proc/return_py()
-	return MODULUS(y, world.icon_size) - 16 - 1
+	return MODULUS(y, WORLD_ICON_SIZE_VIRTUAL_HEIGHT) - 16 - 1
 
 /datum/point/vector
 	/// Pixels per iteration
-	var/speed = 32				
+	var/speed = 32
 	var/iteration = 0
 	var/angle = 0
 	/// Calculated x movement amounts to prevent having to do trig every step.
-	var/mpx = 0					
+	var/mpx = 0
 	/// Calculated y movement amounts to prevent having to do trig every step.
 	var/mpy = 0
 	var/starting_x = 0 //just like before, pixels from EDGE of map! This is set in initialize_location().
@@ -158,11 +158,11 @@
 	starting_z = z
 
 /// Same effect as initiliaze_location, but without setting the starting_x/y/z
-/datum/point/vector/proc/set_location(tile_x, tile_y, tile_z, p_x = 0, p_y = 0) 
+/datum/point/vector/proc/set_location(tile_x, tile_y, tile_z, p_x = 0, p_y = 0)
 	if(!isnull(tile_x))
-		x = ((tile_x - 1) * world.icon_size) + world.icon_size * 0.5 + p_x + 1
+		x = ((tile_x - 1) * WORLD_ICON_SIZE_WIDTH) + WORLD_ICON_SIZE_WIDTH * 0.5 + p_x + 1
 	if(!isnull(tile_y))
-		y = ((tile_y - 1) * world.icon_size) + world.icon_size * 0.5 + p_y + 1
+		y = ((tile_y - 1) * WORLD_ICON_SIZE_VIRTUAL_HEIGHT) + WORLD_ICON_SIZE_VIRTUAL_HEIGHT * 0.5 + p_y + 1
 	if(!isnull(tile_z))
 		z = tile_z
 

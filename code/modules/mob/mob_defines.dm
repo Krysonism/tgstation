@@ -229,6 +229,6 @@
 
 	///Mask for when a client posseses a mob to mask out a section of the wall frill
 	var/image/frill_oval_mask
-	
+
 	/// A mock client, provided by tests and friends
 	var/datum/client_interface/mock_client

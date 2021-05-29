@@ -10,7 +10,7 @@
 			step_y = AM.step_y
 	. = ..()
 
-/obj/item/camera/proc/camera_get_icon(list/turfs, turf/center, psize_x = 96, psize_y = 96, datum/turf_reservation/clone_area, size_x, size_y, total_x, total_y)
+/obj/item/camera/proc/camera_get_icon(list/turfs, turf/center, psize_x = 96, psize_y = 72, datum/turf_reservation/clone_area, size_x, size_y, total_x, total_y)
 	var/list/atoms = list()
 	var/skip_normal = FALSE
 	var/wipe_atoms = FALSE
@@ -66,8 +66,8 @@
 
 	if(!skip_normal) //these are not clones
 		for(var/atom/A in sorted)
-			var/xo = (A.x - center.x) * world.icon_size + A.pixel_x + xcomp
-			var/yo = (A.y - center.y) * world.icon_size + A.pixel_y + ycomp
+			var/xo = (A.x - center.x) * WORLD_ICON_SIZE_WIDTH + A.pixel_x + xcomp
+			var/yo = (A.y - center.y) * WORLD_ICON_SIZE_HEIGHT + A.pixel_y + ycomp
 			if(ismovable(A))
 				var/atom/movable/AM = A
 				xo += AM.step_x
@@ -81,9 +81,9 @@
 			var/icon/img = getFlatIcon(clone, no_anim = TRUE)
 			if(img)
 				// Center of the image in X
-				var/xo = (clone.x - center.x) * world.icon_size + clone.pixel_x + xcomp + clone.step_x
+				var/xo = (clone.x - center.x) * WORLD_ICON_SIZE_WIDTH + clone.pixel_x + xcomp + clone.step_x
 				// Center of the image in Y
-				var/yo = (clone.y - center.y) * world.icon_size + clone.pixel_y + ycomp + clone.step_y
+				var/yo = (clone.y - center.y) * WORLD_ICON_SIZE_HEIGHT + clone.pixel_y + ycomp + clone.step_y
 
 				if(clone.transform) // getFlatIcon doesn't give a snot about transforms.
 					var/datum/decompose_matrix/decompose = clone.transform.decompose()

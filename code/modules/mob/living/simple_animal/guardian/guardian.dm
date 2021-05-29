@@ -78,7 +78,7 @@ GLOBAL_LIST_EMPTY(parasites) //all currently existing/living guardians
 	if(summoner)
 		var/image/holder = hud_list[STATUS_HUD]
 		var/icon/I = icon(icon, icon_state, dir)
-		holder.pixel_y = I.Height() - world.icon_size
+		holder.pixel_y = I.Height() - WORLD_ICON_SIZE_VIRTUAL_HEIGHT
 		if(summoner.stat == DEAD)
 			holder.icon_state = "huddead"
 		else

@@ -207,7 +207,7 @@
 	var/static/list/careful_edits = list("bound_x" = TRUE, "bound_y" = TRUE, "bound_width" = TRUE, "bound_height" = TRUE)
 	if(banned_edits[var_name])
 		return FALSE //PLEASE no.
-	if((careful_edits[var_name]) && (var_value % world.icon_size) != 0)
+	if((careful_edits[var_name]) && (var_value % WORLD_ICON_SIZE_WIDTH) != 0)
 		return FALSE
 
 	switch(var_name)

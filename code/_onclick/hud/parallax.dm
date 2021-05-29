@@ -259,8 +259,8 @@
 		view = world.view
 
 	var/list/viewscales = getviewsize(view)
-	var/countx = CEILING((viewscales[1]/2)/(480/world.icon_size), 1)+1
-	var/county = CEILING((viewscales[2]/2)/(480/world.icon_size), 1)+1
+	var/countx = CEILING((viewscales[1]/2)/(480/WORLD_ICON_SIZE_WIDTH), 1)+1
+	var/county = CEILING((viewscales[2]/2)/(480/WORLD_ICON_SIZE_VIRTUAL_HEIGHT), 1)+1
 	var/list/new_overlays = new
 	for(var/x in -countx to countx)
 		for(var/y in -county to county)

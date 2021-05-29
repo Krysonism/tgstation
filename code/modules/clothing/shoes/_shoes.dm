@@ -78,7 +78,7 @@
 /obj/item/clothing/shoes/proc/restore_offsets(mob/user)
 	equipped_before_drop = FALSE
 	user.pixel_y -= offset
-	worn_y_dimension = world.icon_size
+	worn_y_dimension = WORLD_ICON_SIZE_VIRTUAL_HEIGHT
 
 /obj/item/clothing/shoes/dropped(mob/user)
 	if(our_alert && our_alert.owner == user)

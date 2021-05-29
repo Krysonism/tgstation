@@ -33,11 +33,11 @@ If ever any of these procs are useful for non-shuttles, rename it to proc/rotate
 	//Owerride non zero bound_x, bound_y, pixel_x, pixel_y to zero.
 	//Dont take in account starting bound_x, bound_y, pixel_x, pixel_y.
 	//So it can unintentionally shift physical bounds of things that starts with non zero bound_x, bound_y.
-	if(((bound_height != world.icon_size) || (bound_width != world.icon_size)) && (bound_x==0) && (bound_y==0)) //Dont shift things that have non zero bound_x and bound_y, or it move somewhere. Now it BSA and Gateway.
-		pixel_x = dir & (NORTH|EAST) ? -bound_width+world.icon_size : 0
-		pixel_y = dir & (NORTH|WEST) ? -bound_width+world.icon_size : 0
+	if(((bound_height != WORLD_ICON_SIZE_HEIGHT) || (bound_width != WORLD_ICON_SIZE_WIDTH)) && (bound_x==0) && (bound_y==0)) //Dont shift things that have non zero bound_x and bound_y, or it move somewhere. Now it BSA and Gateway.
+		pixel_x = dir & (NORTH|EAST) ? -bound_width+WORLD_ICON_SIZE_WIDTH : 0
+		pixel_y = dir & (NORTH|WEST) ? -bound_width+WORLD_ICON_SIZE_HEIGHT : 0
 		bound_x = pixel_x
-		bound_y = pixel_y
+		//bound_y = pixel_y
 
 /************************************Turf rotate procs************************************/
 
