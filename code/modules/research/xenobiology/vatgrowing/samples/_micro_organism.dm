@@ -25,6 +25,8 @@
 	var/growth_rate = 4
 	///Resulting atoms from growing this cell line. List is assoc atom type || amount
 	var/list/resulting_atoms = list()
+	///This var contains a brief description of whatthis cell line does spliced into an atom.
+	var/splice_desc = null
 
 ///Handles growth of the micro_organism. This only runs if the micro organism is in the growing vat. Reagents is the growing vats reagents
 /datum/micro_organism/cell_line/proc/handle_growth(obj/machinery/plumbing/growing_vat/vat)
@@ -100,6 +102,12 @@
 		for(var/x in 1 to resulting_atoms[created_thing])
 			var/atom/thing = new created_thing(get_turf(vat))
 			ADD_TRAIT(thing, TRAIT_VATGROWN, "vatgrowing")
+			for(var/datum/micro_organism/cell_line/vat_cell_line in vat.biological_sample.micro_organisms)
+				if(vat_cell_line == src)
+					continue
+				if(vat_cell_line.growth >= VATGROWING_DANGER_MINIMUM)
+					vat_cell_line.splice(thing)
+
 			vat.visible_message(span_nicegreen("[thing] pops out of [vat]!"))
 
 	QDEL_NULL(vat.biological_sample) //Kill off the sample, we're done
@@ -121,3 +129,8 @@
 		var/datum/reagent/reagent = i
 		all_reagents_text += " - [initial(reagent.name)]\n"
 	return span_notice("[prefix_text]\n[all_reagents_text]")
+
+/datum/micro_organism/cell_line/proc/splice(atom/spliced_atom)
+	if(!isliving(spliced_atom))
+		return
+	//Add examine text here. cyology_todo

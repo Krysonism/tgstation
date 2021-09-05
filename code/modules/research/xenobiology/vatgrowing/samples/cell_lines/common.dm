@@ -43,6 +43,20 @@
 	virus_suspectibility = 1
 	growth_rate = VAT_GROWTH_RATE
 	resulting_atoms = list(/mob/living/simple_animal/chicken = 1)
+	splice_desc = "Creatures spliced with this cell line are generally able to lay eggs when fed well."
+
+/datum/micro_organism/cell_line/chicken/splice(atom/spliced_atom)
+	. = ..()
+	if(!isliving(spliced_atom))
+		return
+	spliced_atom.AddComponent(/datum/component/egg_layer,\
+	/obj/item/food/egg,\
+	list(/obj/item/food/grown/wheat),\
+	feed_messages = list("She clucks happily."),\
+	lay_messages = EGG_LAYING_MESSAGES,\
+	eggs_left = 0,\
+	eggs_added_from_eating = rand(1, 4),\
+	max_eggs_held = 8)
 
 /datum/micro_organism/cell_line/cow
 	desc = "Bovine stem cells"
@@ -62,6 +76,13 @@
 
 	virus_suspectibility = 1
 	resulting_atoms = list(/mob/living/simple_animal/cow = 1)
+	splice_desc = "Creatures spliced with this cell line develop sizeable milk glands."
+
+/datum/micro_organism/cell_line/cow/splice(atom/spliced_atom)
+	. = ..()
+	if(!isliving(spliced_atom))
+		return
+	spliced_atom.AddComponent(/datum/component/udder)
 
 /datum/micro_organism/cell_line/cat
 	desc = "Feliform cells"
@@ -82,6 +103,15 @@
 
 	virus_suspectibility = 1.5
 	resulting_atoms = list(/mob/living/simple_animal/pet/cat = 1) //The basic cat mobs are all male, so you mightt need a gender swap potion if you want to fill the fortress with kittens.
+	splice_desc = "Creatures spliced with this cell line exhibit a high degree of low light vision."
+
+/datum/micro_organism/cell_line/cat/splice(atom/spliced_atom)
+	. = ..()
+	if(!isanimal(spliced_atom))
+		return
+	var/mob/living/simple_animal/spliced_animal = spliced_atom
+	spliced_animal.AddElement(/datum/element/pet_bonus, "purrs!")
+	spliced_animal.see_in_dark = max(6, spliced_animal.see_in_dark)
 
 /datum/micro_organism/cell_line/corgi
 	desc = "Canid cells"
@@ -100,6 +130,13 @@
 						/datum/reagent/consumable/coco = -2)
 	virus_suspectibility = 1
 	resulting_atoms = list(/mob/living/simple_animal/pet/dog/corgi = 1)
+	splice_desc = "Creature with this type of chimaerism are generally loyal, obedient and amenable to training."
+
+/datum/micro_organism/cell_line/corgi/splice(atom/spliced_atom)
+	. = ..()
+	if(!isliving(spliced_atom))
+		return
+	spliced_atom.ai_controller = new /datum/ai_controller/dog()
 
 /datum/micro_organism/cell_line/pug
 	desc = "Squat canid cells"
@@ -118,6 +155,13 @@
 
 	virus_suspectibility = 3
 	resulting_atoms = list(/mob/living/simple_animal/pet/dog/pug = 1)
+	splice_desc = "Creature with this type of chimaerism are generally loyal, obedient and amenable to training."
+
+/datum/micro_organism/cell_line/pug/splice(atom/spliced_atom)
+	. = ..()
+	if(!isliving(spliced_atom))
+		return
+	spliced_atom.ai_controller = new /datum/ai_controller/dog()
 
 /datum/micro_organism/cell_line/bear //bears can't really compete directly with more powerful creatures, so i made it possible to grow them real fast.
 	desc = "Ursine cells"
@@ -139,6 +183,16 @@
 
 	virus_suspectibility = 2
 	resulting_atoms = list(/mob/living/simple_animal/hostile/bear = 1)
+	splice_desc = "Creatures spliced with ursine cells tend to develop sharp claws at various sites in their surface tissues."
+
+/datum/micro_organism/cell_line/bear/splice(atom/spliced_atom)
+	. = ..()
+	if(!isanimal(spliced_atom))
+		return
+	var/mob/living/simple_animal/spliced_animal = spliced_atom
+	spliced_animal.sharpness = SHARP_EDGED
+	spliced_animal.bare_wound_bonus += 10
+	spliced_animal.minbodytemp = 0
 
 /datum/micro_organism/cell_line/carp
 	desc = "Cyprinid cells"
@@ -159,6 +213,18 @@
 
 	virus_suspectibility = 2
 	resulting_atoms = list(/mob/living/simple_animal/hostile/carp = 1)
+	splice_desc = "Creatures spliced with space carp cells can withstand, and swim in, the harsh envrioment of outer space."
+
+/datum/micro_organism/cell_line/carp/splice(atom/spliced_atom)
+	. = ..()
+	if(!isliving(spliced_atom))
+		return
+	ADD_TRAIT(spliced_atom, TRAIT_SPACEWALK, INNATE_TRAIT) //cytology_todo
+	if(!isliving(spliced_atom))
+		return
+	var/mob/living/simple_animal/spliced_animal = spliced_atom
+	spliced_animal.minbodytemp = 0
+	spliced_animal.atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 
 /datum/micro_organism/cell_line/megacarp
 	desc = "Cartilaginous cyprinid cells"
@@ -180,6 +246,19 @@
 
 	virus_suspectibility = 1
 	resulting_atoms = list(/mob/living/simple_animal/hostile/carp/megacarp = 1)
+	splice_desc = "Creatures spliced with space shark cells can withstand, and swim in, the harsh enviroment of outer space. In addition they display shark-like regeneration capabilities"
+
+/datum/micro_organism/cell_line/megacarp/splice(atom/spliced_atom)
+	. = ..()
+	if(!isliving(spliced_atom))
+		return
+	ADD_TRAIT(spliced_atom, TRAIT_SPACEWALK, INNATE_TRAIT) //cytology_todo
+	if(!isliving(spliced_atom))
+		return
+	var/mob/living/simple_animal/spliced_animal = spliced_atom
+	spliced_animal.minbodytemp = 0
+	spliced_animal.atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
+	//add regeneration cytology_todo
 
 /datum/micro_organism/cell_line/snake
 	desc = "Ophidic cells"
@@ -198,7 +277,13 @@
 						/datum/reagent/sulfur = -3) //sulfur repels snakes according to professor google.
 
 	resulting_atoms = list(/mob/living/simple_animal/hostile/retaliate/snake = 1)
+	splice_desc = "Creatures with partial snake chimaerism develop venom glands and seem to be capable of envenomation"
 
+/datum/micro_organism/cell_line/snake/splice(atom/spliced_atom)
+	. = ..()
+	if(!isliving(spliced_atom))
+		return
+	AddElement(/datum/element/venomous, /datum/reagent/toxin, 4)
 
 ///////////////////////////////////////////
 /// SLIMES, OOZES & BLOBS ///
@@ -222,6 +307,25 @@
 
 	virus_suspectibility = 0
 	resulting_atoms = list(/mob/living/simple_animal/slime = 1)
+	splice_desc = "A creature spliced with slime cells generally displays unusual coloration in all of its tissues."
+
+/datum/micro_organism/cell_line/slime/splice(atom/spliced_atom)
+	. = ..()
+	var/hue_shift = 1
+	switch(rand(1, 100))
+		if(1 to 35)
+			hue_shift = 0.15
+		if(36 to 70)
+			hue_shift = 0.85
+		if(71 to 83)
+			hue_shift = 0.3
+		if(84 to 95)
+			hue_shift = 0.7
+		if(96 to 100)
+			hue_shift = 0.5 //best in show
+
+	var/list/splice_shift_matrix = list(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1, hue_shift,0,0,0)
+	spliced_atom.add_filter("slime splice", 15, color_matrix_filter(splice_shift_matrix, FILTER_COLOR_HSL))
 
 /datum/micro_organism/cell_line/blob_spore //shitty cell line to dilute the pool, feel free to make easier to grow if it doesn't interfer with growing the powerful mobs enough.
 	desc = "Immature blob spores"
@@ -239,6 +343,13 @@
 	)
 	virus_suspectibility = 0
 	resulting_atoms = list(/mob/living/simple_animal/hostile/blob/blobspore/independent = 2) //These are useless so we might as well spawn 2.
+	splice_desc = "Creatures spliced with blob spore cells exhibt a rapid increase in intelligence in response to being petted, prodded or poked."
+
+/datum/micro_organism/cell_line/blob_spore/splice(atom/spliced_atom)
+	. = ..()
+	if(!isanimal(spliced_atom))
+		return
+	spliced_atom.AddComponent(/datum/component/sentience_touch)
 
 /datum/micro_organism/cell_line/blobbernaut
 	desc = "Blobular myocytes"

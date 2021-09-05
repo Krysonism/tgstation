@@ -300,6 +300,7 @@
 	AddAbility(globules)
 	gel_cocoon = new
 	gel_cocoon.Grant(src)
+	color = rgb(h = pick(45, -45, 90, -90, 180), s = 100, l = 100, space = COLORSPACE_HSL)
 
 /mob/living/simple_animal/hostile/ooze/grapes/Destroy()
 	. = ..()
