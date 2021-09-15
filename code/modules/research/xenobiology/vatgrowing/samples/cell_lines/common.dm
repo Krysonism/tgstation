@@ -47,8 +47,6 @@
 
 /datum/micro_organism/cell_line/chicken/splice(atom/spliced_atom)
 	. = ..()
-	if(!isliving(spliced_atom))
-		return
 	spliced_atom.AddComponent(/datum/component/egg_layer,\
 	/obj/item/food/egg,\
 	list(/obj/item/food/grown/wheat),\
@@ -80,8 +78,6 @@
 
 /datum/micro_organism/cell_line/cow/splice(atom/spliced_atom)
 	. = ..()
-	if(!isliving(spliced_atom))
-		return
 	spliced_atom.AddComponent(/datum/component/udder)
 
 /datum/micro_organism/cell_line/cat
@@ -105,10 +101,13 @@
 	resulting_atoms = list(/mob/living/simple_animal/pet/cat = 1) //The basic cat mobs are all male, so you mightt need a gender swap potion if you want to fill the fortress with kittens.
 	splice_desc = "Creatures spliced with this cell line exhibit a high degree of low light vision."
 
+/datum/micro_organism/cell_line/cat/can_splice(atom/spliced_atom)
+	if(!isanimal(spliced_atom))
+		return FALSE
+	return TRUE
+
 /datum/micro_organism/cell_line/cat/splice(atom/spliced_atom)
 	. = ..()
-	if(!isanimal(spliced_atom))
-		return
 	var/mob/living/simple_animal/spliced_animal = spliced_atom
 	spliced_animal.AddElement(/datum/element/pet_bonus, "purrs!")
 	spliced_animal.see_in_dark = max(6, spliced_animal.see_in_dark)
@@ -134,8 +133,6 @@
 
 /datum/micro_organism/cell_line/corgi/splice(atom/spliced_atom)
 	. = ..()
-	if(!isliving(spliced_atom))
-		return
 	spliced_atom.ai_controller = new /datum/ai_controller/dog()
 
 /datum/micro_organism/cell_line/pug
@@ -159,8 +156,6 @@
 
 /datum/micro_organism/cell_line/pug/splice(atom/spliced_atom)
 	. = ..()
-	if(!isliving(spliced_atom))
-		return
 	spliced_atom.ai_controller = new /datum/ai_controller/dog()
 
 /datum/micro_organism/cell_line/bear //bears can't really compete directly with more powerful creatures, so i made it possible to grow them real fast.
@@ -185,10 +180,13 @@
 	resulting_atoms = list(/mob/living/simple_animal/hostile/bear = 1)
 	splice_desc = "Creatures spliced with ursine cells tend to develop sharp claws at various sites in their surface tissues."
 
+/datum/micro_organism/cell_line/bear/can_splice(atom/spliced_atom)
+	if(!isanimal(spliced_atom))
+		return FALSE
+	return TRUE
+
 /datum/micro_organism/cell_line/bear/splice(atom/spliced_atom)
 	. = ..()
-	if(!isanimal(spliced_atom))
-		return
 	var/mob/living/simple_animal/spliced_animal = spliced_atom
 	spliced_animal.sharpness = SHARP_EDGED
 	spliced_animal.bare_wound_bonus += 10
@@ -217,10 +215,8 @@
 
 /datum/micro_organism/cell_line/carp/splice(atom/spliced_atom)
 	. = ..()
-	if(!isliving(spliced_atom))
-		return
 	ADD_TRAIT(spliced_atom, TRAIT_SPACEWALK, INNATE_TRAIT) //cytology_todo
-	if(!isliving(spliced_atom))
+	if(!isanimal(spliced_atom))
 		return
 	var/mob/living/simple_animal/spliced_animal = spliced_atom
 	spliced_animal.minbodytemp = 0
@@ -250,10 +246,8 @@
 
 /datum/micro_organism/cell_line/megacarp/splice(atom/spliced_atom)
 	. = ..()
-	if(!isliving(spliced_atom))
-		return
 	ADD_TRAIT(spliced_atom, TRAIT_SPACEWALK, INNATE_TRAIT) //cytology_todo
-	if(!isliving(spliced_atom))
+	if(!isanimal(spliced_atom))
 		return
 	var/mob/living/simple_animal/spliced_animal = spliced_atom
 	spliced_animal.minbodytemp = 0
@@ -281,8 +275,7 @@
 
 /datum/micro_organism/cell_line/snake/splice(atom/spliced_atom)
 	. = ..()
-	if(!isliving(spliced_atom))
-		return
+
 	AddElement(/datum/element/venomous, /datum/reagent/toxin, 4)
 
 ///////////////////////////////////////////
@@ -345,10 +338,13 @@
 	resulting_atoms = list(/mob/living/simple_animal/hostile/blob/blobspore/independent = 2) //These are useless so we might as well spawn 2.
 	splice_desc = "Creatures spliced with blob spore cells exhibt a rapid increase in intelligence in response to being petted, prodded or poked."
 
+/datum/micro_organism/cell_line/blob_spore/can_splice(atom/spliced_atom)
+	if(!isanimal(spliced_atom))
+		return FALSE
+	return TRUE
+
 /datum/micro_organism/cell_line/blob_spore/splice(atom/spliced_atom)
 	. = ..()
-	if(!isanimal(spliced_atom))
-		return
 	spliced_atom.AddComponent(/datum/component/sentience_touch)
 
 /datum/micro_organism/cell_line/blobbernaut

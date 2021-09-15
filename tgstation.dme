@@ -753,6 +753,7 @@
 #include "code\datums\elements\simple_flying.dm"
 #include "code\datums\elements\skittish.dm"
 #include "code\datums\elements\snail_crawl.dm"
+#include "code\datums\elements\splice_info.dm"
 #include "code\datums\elements\spooky.dm"
 #include "code\datums\elements\squish.dm"
 #include "code\datums\elements\strippable.dm"
