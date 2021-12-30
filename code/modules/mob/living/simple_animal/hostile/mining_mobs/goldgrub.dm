@@ -35,8 +35,7 @@
 	var/chase_time = 100
 	var/will_burrow = TRUE
 	var/datum/action/innate/goldgrub/spitore/spit
-	var/datum/action/innate/goldgrub/burrow/burrow
-	var/is_burrowed = FALSE
+	var/datum/action/innate/burrow/burrow
 
 /mob/living/simple_animal/hostile/asteroid/goldgrub/Initialize(mapload)
 	. = ..()
@@ -57,40 +56,59 @@
 	desc = "Vomit out all of your consumed ores."
 
 /datum/action/innate/goldgrub/spitore/Activate()
-	var/mob/living/simple_animal/hostile/asteroid/goldgrub/G = owner
-	if(G.stat == DEAD || G.is_burrowed)
+	var/mob/living/simple_animal/hostile/asteroid/goldgrub/grubby = owner
+	if(grubby.stat == DEAD || !isturf(grubby.loc))
 		return
-	G.barf_contents()
+	grubby.barf_contents()
 
-/datum/action/innate/goldgrub/burrow
+/datum/action/innate/burrow
 	name = "Burrow"
 	desc = "Burrow under soft ground, evading predators and increasing your speed."
+	icon_icon =  'icons/mob/actions/actions_animal.dmi'
+	button_icon_state = "burrow"
+	background_icon_state = "bg_default"
+	var/is_burrowed = FALSE
+	/// list of types we can dig into
+	var/static/list/diggable_turfs
 
-/datum/action/innate/goldgrub/burrow/Activate()
-	var/mob/living/simple_animal/hostile/asteroid/goldgrub/G = owner
+/datum/action/innate/burrow/Activate()
+	if(!diggable_turfs)
+		diggable_turfs = list(
+			/turf/open/floor/plating/asteroid,
+			/turf/open/floor/plating/grass,
+			/turf/open/floor/grass,
+			/turf/open/floor/plating/ironsand,
+			/turf/open/floor/plating/dirt,
+			/turf/open/floor/plating/sandy_dirt
+		)
+
+	var/mob/living/wormy_owner = owner
 	var/obj/effect/dummy/phased_mob/holder = null
-	if(G.stat == DEAD)
+	if(wormy_owner.stat == DEAD)
 		return
-	var/turf/T = get_turf(G)
-	if (!istype(T, /turf/open/floor/plating/asteroid) || !do_after(G, 30, target = T))
-		to_chat(G, span_warning("You can only burrow in and out of mining turfs and must stay still!"))
+	var/turf/dig_turf = get_turf(wormy_owner)
+	if (!is_type_in_list(dig_turf, diggable_turfs) || !do_after(wormy_owner, 30, target = dig_turf))
+		to_chat(wormy_owner, span_warning("You can only burrow in and out soft ground and must stay still!"))
 		return
-	if (get_dist(G, T) != 0)
-		to_chat(G, span_warning("Action cancelled, as you moved while reappearing."))
+	if (get_dist(wormy_owner, dig_turf) != 0)
+		to_chat(wormy_owner, span_warning("Action cancelled, as you moved while reappearing."))
 		return
-	if(G.is_burrowed)
-		holder = G.loc
-		G.forceMove(T)
+	if(is_burrowed)
+		holder = wormy_owner.loc
+		wormy_owner.forceMove(dig_turf)
 		QDEL_NULL(holder)
-		G.is_burrowed = FALSE
-		G.visible_message(span_danger("[G] emerges from the ground!"))
-		playsound(get_turf(G), 'sound/effects/break_stone.ogg', 50, TRUE, -1)
+		is_burrowed = FALSE
+		wormy_owner.visible_message(span_danger("[wormy_owner] emerges from the ground!"))
+		playsound(get_turf(wormy_owner), 'sound/effects/break_stone.ogg', 50, TRUE, -1)
+		button_icon_state = "burrow"
 	else
-		G.visible_message(span_danger("[G] buries into the ground, vanishing from sight!"))
-		playsound(get_turf(G), 'sound/effects/break_stone.ogg', 50, TRUE, -1)
-		holder = new /obj/effect/dummy/phased_mob(T)
-		G.forceMove(holder)
-		G.is_burrowed = TRUE
+		wormy_owner.visible_message(span_danger("[wormy_owner] buries into the ground, vanishing from sight!"))
+		playsound(get_turf(wormy_owner), 'sound/effects/break_stone.ogg', 50, TRUE, -1)
+		holder = new /obj/effect/dummy/phased_mob(dig_turf)
+		wormy_owner.forceMove(holder)
+		is_burrowed = TRUE
+		button_icon_state = "emerge"
+	UpdateButtonIcon()
 
 /mob/living/simple_animal/hostile/asteroid/goldgrub/GiveTarget(new_target)
 	add_target(new_target)

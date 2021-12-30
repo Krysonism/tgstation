@@ -126,6 +126,8 @@
 
 /// Makes you immobilized until someone stops pulling you, or the duration runs out.atom
 #define STATUS_EFFECT_IMMOBILIZING_GRAB /datum/status_effect/incapacitating/immobilized/immobilizing_grab
+///Makes you immobilized and anchored, the status effect is removed if the thing that is ensnaring you is destroyed.
+#define STATUS_EFFECT_ROOTED /datum/status_effect/incapacitating/immobilized/rooted
 
 /////////////
 // NEUTRAL //

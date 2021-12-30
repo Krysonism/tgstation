@@ -1125,3 +1125,34 @@
 /datum/status_effect/incapacitating/immobilized/immobilizing_grab/proc/let_go()
 	SIGNAL_HANDLER
 	owner.remove_status_effect(STATUS_EFFECT_IMMOBILIZING_GRAB)
+
+/datum/status_effect/incapacitating/immobilized/rooted
+	id = "rooted"
+	///This is the weakref of the object that is ensnaring the mob.
+	var/datum/weakref/root_giver
+
+/datum/status_effect/incapacitating/immobilized/rooted/on_creation(mob/living/new_owner, set_duration, atom/root)
+	. = ..()
+	RegisterSignal(new_owner, COMSIG_MOVABLE_TELEPORTED, .proc/unroot)
+
+	if(root)
+		root_giver = WEAKREF(root)
+		RegisterSignal(root, COMSIG_PARENT_PREQDELETED, .proc/unroot)
+
+/datum/status_effect/incapacitating/immobilized/rooted/on_apply()
+	. = ..()
+	owner.set_anchored(TRUE)
+	animate(owner, time = 0, pixel_x = 4, easing = (BOUNCE_EASING | EASE_OUT))
+	animate(time = 0, pixel_x = -4, easing = (BOUNCE_EASING | EASE_OUT | EASE_IN))
+	animate(time = 0, pixel_x = 0, easing = (BOUNCE_EASING | EASE_IN))
+
+/datum/status_effect/incapacitating/immobilized/rooted/on_remove()
+	. = ..()
+	UnregisterSignal(owner, COMSIG_MOVABLE_TELEPORTED)
+	if(root_giver.resolve())
+		UnregisterSignal(root_giver.resolve(), COMSIG_PARENT_PREQDELETED)
+	owner.set_anchored(initial(owner.anchored))
+
+/datum/status_effect/incapacitating/immobilized/rooted/proc/unroot()
+	SIGNAL_HANDLER
+	owner.remove_status_effect(STATUS_EFFECT_ROOTED)

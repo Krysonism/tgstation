@@ -919,4 +919,4 @@
 	icon_state = "soil_worm"
 	maxnutri = 20
 	plant_y_offset = 8
-
+	pixel_z = 0
