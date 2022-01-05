@@ -104,11 +104,26 @@
 	else
 		wormy_owner.visible_message(span_danger("[wormy_owner] buries into the ground, vanishing from sight!"))
 		playsound(get_turf(wormy_owner), 'sound/effects/break_stone.ogg', 50, TRUE, -1)
-		holder = new /obj/effect/dummy/phased_mob(dig_turf)
+		holder = new /obj/effect/dummy/phased_mob/digger(dig_turf, diggable_turfs)
 		wormy_owner.forceMove(holder)
 		is_burrowed = TRUE
 		button_icon_state = "emerge"
 	UpdateButtonIcon()
+
+/obj/effect/dummy/phased_mob/digger
+	name = "digger"
+	var/list/diggable_turfs = list()
+
+/obj/effect/dummy/phased_mob/digger/Initialize(mapload, list/appropriate_turfs)
+	. = ..()
+	diggable_turfs = appropriate_turfs.Copy()
+
+/obj/effect/dummy/phased_mob/digger/phased_check(mob/living/user, direction)
+	var/turf/possible_turf = ..()
+	if(is_type_in_list(possible_turf, diggable_turfs))
+		return possible_turf
+	else
+		return
 
 /mob/living/simple_animal/hostile/asteroid/goldgrub/GiveTarget(new_target)
 	add_target(new_target)

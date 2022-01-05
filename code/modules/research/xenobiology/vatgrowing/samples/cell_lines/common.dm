@@ -720,4 +720,30 @@
 
 	resulting_atoms = list(/mob/living/simple_animal/hostile/jungle/mega_arachnid = 1)
 
+/datum/micro_organism/cell_line/cobraworm
+	desc = "alien annelid cells"
+	required_reagents = list(
+		/datum/reagent/consumable/nutriment/protein,
+		/datum/reagent/consumable/vitfro)
+
+	supplementary_reagents = list(
+		/datum/reagent/consumable/ethanol/duplex = 4,
+		/datum/reagent/consumable/peachjuice = 3,
+		/datum/reagent/consumable/ethanol/squirt_cider = 2,
+		/datum/reagent/consumable/applejuice = 1,
+		/datum/reagent/consumable/ethanol/acid_spit = 1,
+		/datum/reagent/consumable/nutriment/vitamin = 1)
+
+	suppressive_reagents = list(
+		/datum/reagent/consumable/poisonberryjuice = -4,
+		/datum/reagent/impurity/healing/medicine_failure = -2,
+		/datum/reagent/toxin/carpotoxin = -2,
+		/datum/reagent/toxin/spore = -2,
+		/datum/reagent/toxin/cyanide = -2,
+		/datum/reagent/lead = -2,
+		/datum/reagent/ants = -1)
+
+	virus_suspectibility = 0
+	resulting_atoms = list(/mob/living/basic/cobraworm = 1)
+
 #undef VAT_GROWTH_RATE

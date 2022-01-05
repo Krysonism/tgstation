@@ -34,7 +34,8 @@ GLOBAL_LIST_INIT_TYPED(cell_line_tables, /list, list(
 		/datum/micro_organism/cell_line/mouse = 2,
 		/datum/micro_organism/cell_line/corgi = 1,
 		/datum/micro_organism/cell_line/cockroach = 1,
-		/datum/micro_organism/cell_line/cat = 1),
+		/datum/micro_organism/cell_line/cat = 1,
+		/datum/micro_organism/cell_line/cobraworm = 1),
 
 	CELL_LINE_TABLE_BEAR = list(/datum/micro_organism/cell_line/bear = 1),
 	CELL_LINE_TABLE_BLOBBERNAUT = list(/datum/micro_organism/cell_line/blobbernaut = 1),
