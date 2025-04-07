@@ -6,7 +6,7 @@
 /obj/item/shell
 	name = "assembly"
 	desc = "A shell assembly that can be completed by screwdrivering it."
-	icon = 'icons/obj/wiremod.dmi'
+	icon = 'icons/obj/science/circuits.dmi'
 	var/shell_to_spawn
 	var/screw_delay = 3 SECONDS
 
@@ -39,9 +39,35 @@
 	name = "drone assembly"
 	icon_state = "setup_medium_med-open"
 	shell_to_spawn = /mob/living/circuit_drone
+	w_class = WEIGHT_CLASS_SMALL
 
 /obj/item/shell/server
 	name = "server assembly"
 	icon_state = "setup_stationary-open"
 	shell_to_spawn = /obj/structure/server
 	screw_delay = 10 SECONDS
+
+/obj/item/shell/airlock
+	name = "circuit airlock assembly"
+	icon = 'icons/obj/doors/airlocks/station/public.dmi'
+	icon_state = "construction"
+	shell_to_spawn = /obj/machinery/door/airlock/shell
+	screw_delay = 10 SECONDS
+	w_class = WEIGHT_CLASS_BULKY
+
+/obj/item/shell/dispenser
+	name = "circuit dispenser assembly"
+	icon_state = "setup_drone_arms-open"
+	shell_to_spawn = /obj/structure/dispenser_bot
+
+/obj/item/shell/bci
+	name = "brain-computer interface assembly"
+	icon_state = "bci-open"
+	shell_to_spawn = /obj/item/organ/cyberimp/bci
+	w_class = WEIGHT_CLASS_TINY
+
+/obj/item/shell/scanner_gate
+	name = "scanner gate assembly"
+	icon = 'icons/obj/machines/scangate.dmi'
+	icon_state = "scangate_black_open"
+	shell_to_spawn = /obj/structure/scanner_gate_shell

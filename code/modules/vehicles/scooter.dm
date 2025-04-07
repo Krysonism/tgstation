@@ -4,7 +4,7 @@
 	icon_state = "scooter"
 	are_legs_exposed = TRUE
 
-/obj/vehicle/ridden/scooter/Initialize()
+/obj/vehicle/ridden/scooter/Initialize(mapload)
 	. = ..()
 	make_ridable()
 
@@ -26,7 +26,7 @@
 	qdel(src)
 	return TRUE
 
-/obj/vehicle/ridden/scooter/Moved()
+/obj/vehicle/ridden/scooter/Moved(atom/old_loc, movement_dir, forced, list/old_locs, momentum_change = TRUE)
 	. = ..()
 	for(var/mob/living/buckled_mob as anything in buckled_mobs)
 		if(buckled_mob.num_legs > 0)
@@ -49,8 +49,10 @@
 	var/board_item_type = /obj/item/melee/skateboard
 	///Stamina drain multiplier
 	var/instability = 10
+	///If true, riding the skateboard with walk intent on will prevent crashing.
+	var/can_slow_down = TRUE
 
-/obj/vehicle/ridden/scooter/skateboard/Initialize()
+/obj/vehicle/ridden/scooter/skateboard/Initialize(mapload)
 	. = ..()
 	sparks = new
 	sparks.set_up(1, 0, src)
@@ -72,6 +74,7 @@
 /obj/vehicle/ridden/scooter/skateboard/generate_actions()
 	. = ..()
 	initialize_controller_action_type(/datum/action/vehicle/ridden/scooter/skateboard/ollie, VEHICLE_CONTROL_DRIVE)
+	initialize_controller_action_type(/datum/action/vehicle/ridden/scooter/skateboard/kickflip, VEHICLE_CONTROL_DRIVE)
 
 /obj/vehicle/ridden/scooter/skateboard/post_buckle_mob(mob/living/M)//allows skateboards to be non-dense but still allows 2 skateboarders to collide with each other
 	set_density(TRUE)
@@ -82,29 +85,43 @@
 		set_density(FALSE)
 	return ..()
 
-/obj/vehicle/ridden/scooter/skateboard/Bump(atom/A)
+/obj/vehicle/ridden/scooter/skateboard/Bump(atom/bumped_thing)
 	. = ..()
-	if(!A.density || !has_buckled_mobs())
+	if(!bumped_thing.density || !has_buckled_mobs() || world.time < next_crash)
+		return
+	var/mob/living/rider = buckled_mobs[1]
+	if(rider.move_intent == MOVE_INTENT_WALK && can_slow_down) //Going slow prevents you from crashing.
 		return
 
-	var/mob/living/rider = buckled_mobs[1]
+	next_crash = world.time + 10
 	rider.adjustStaminaLoss(instability*6)
 	playsound(src, 'sound/effects/bang.ogg', 40, TRUE)
-	if(!iscarbon(rider) || rider.getStaminaLoss() >= 100 || grinding || world.time < next_crash)
+	if(!iscarbon(rider) || rider.getStaminaLoss() >= 100 || grinding || iscarbon(bumped_thing))
 		var/atom/throw_target = get_edge_target_turf(rider, pick(GLOB.cardinals))
 		unbuckle_mob(rider)
+		if((istype(bumped_thing, /obj/machinery/disposal/bin)))
+			rider.Paralyze(8 SECONDS)
+			rider.forceMove(bumped_thing)
+			forceMove(bumped_thing)
+			visible_message(span_danger("[src] crashes into [bumped_thing], and gets dumped straight into it!"))
+			return
 		rider.throw_at(throw_target, 3, 2)
 		var/head_slot = rider.get_item_by_slot(ITEM_SLOT_HEAD)
-		if(!head_slot || !(istype(head_slot,/obj/item/clothing/head/helmet) || istype(head_slot,/obj/item/clothing/head/hardhat)))
+		if(!head_slot || !(istype(head_slot,/obj/item/clothing/head/helmet) || istype(head_slot,/obj/item/clothing/head/utility/hardhat)))
 			rider.adjustOrganLoss(ORGAN_SLOT_BRAIN, 5)
 			rider.updatehealth()
-		visible_message(span_danger("[src] crashes into [A], sending [rider] flying!"))
-		rider.Paralyze(80)
+		visible_message(span_danger("[src] crashes into [bumped_thing], sending [rider] flying!"))
+		rider.Paralyze(8 SECONDS)
+		if(iscarbon(bumped_thing))
+			var/mob/living/carbon/victim = bumped_thing
+			var/grinding_mulitipler = 1
+			if(grinding)
+				grinding_mulitipler = 2
+			victim.Knockdown(4 * grinding_mulitipler SECONDS)
 	else
-		var/backdir = turn(dir, 180)
+		var/backdir = REVERSE_DIR(dir)
 		step(src, backdir)
 		rider.spin(4, 1)
-	next_crash = world.time + 10
 
 ///Moves the vehicle forward and if it lands on a table, repeats
 /obj/vehicle/ridden/scooter/skateboard/proc/grind()
@@ -116,36 +133,43 @@
 		return
 
 	var/mob/living/skater = buckled_mobs[1]
-	skater.adjustStaminaLoss(instability*0.5)
-	if (skater.getStaminaLoss() >= 100)
+	skater.adjustStaminaLoss(instability*0.3)
+	if(skater.getStaminaLoss() >= 100)
 		obj_flags = CAN_BE_HIT
 		playsound(src, 'sound/effects/bang.ogg', 20, TRUE)
 		unbuckle_mob(skater)
 		var/atom/throw_target = get_edge_target_turf(src, pick(GLOB.cardinals))
 		skater.throw_at(throw_target, 2, 2)
 		visible_message(span_danger("[skater] loses [skater.p_their()] footing and slams on the ground!"))
-		skater.Paralyze(40)
+		skater.Paralyze(4 SECONDS)
 		grinding = FALSE
 		icon_state = "[initial(icon_state)]"
 		return
 	playsound(src, 'sound/vehicles/skateboard_roll.ogg', 50, TRUE)
-	if(prob(25))
-		var/turf/location = get_turf(src)
-		if(location)
-			location.hotspot_expose(1000,1000)
-		sparks.start() //the most radical way to start plasma fires
-	addtimer(CALLBACK(src, .proc/grind), 1)
+	var/turf/location = get_turf(src)
 
-/obj/vehicle/ridden/scooter/skateboard/MouseDrop(atom/over_object)
-	. = ..()
-	var/mob/living/carbon/skater = usr
+	if(location)
+		if(prob(25))
+			location.hotspot_expose(1000,1000)
+			sparks.start() //the most radical way to start plasma fires
+	for(var/mob/living/carbon/victim in location)
+		if(victim.body_position == LYING_DOWN)
+			playsound(location, 'sound/items/trayhit/trayhit2.ogg', 40)
+			victim.apply_damage(damage = 25, damagetype = BRUTE, def_zone = victim.get_random_valid_zone(even_weights = TRUE), wound_bonus = 20)
+			victim.Paralyze(1.5 SECONDS)
+			skater.adjustStaminaLoss(instability)
+			victim.visible_message(span_danger("[victim] straight up gets grinded into the ground by [skater]'s [src]! Radical!"))
+	addtimer(CALLBACK(src, PROC_REF(grind)), 0.1 SECONDS)
+
+/obj/vehicle/ridden/scooter/skateboard/mouse_drop_dragged(atom/over_object, mob/user)
+	var/mob/living/carbon/skater = user
 	if(!istype(skater))
 		return
 	if (over_object == skater)
 		pick_up_board(skater)
 
 /obj/vehicle/ridden/scooter/skateboard/proc/pick_up_board(mob/living/carbon/skater)
-	if (skater.incapacitated() || !Adjacent(skater))
+	if (skater.incapacitated || !Adjacent(skater))
 		return
 	if(has_buckled_mobs())
 		to_chat(skater, span_warning("You can't lift this up when somebody's on it."))
@@ -160,12 +184,41 @@
 	board_item_type = /obj/item/melee/skateboard/pro
 	instability = 6
 
-/obj/vehicle/ridden/scooter/skateboard/hoverboard/
+/obj/vehicle/ridden/scooter/skateboard/pro/make_ridable()
+	AddElement(/datum/element/ridable, /datum/component/riding/vehicle/scooter/skateboard/pro)
+
+/obj/vehicle/ridden/scooter/skateboard/hoverboard
 	name = "hoverboard"
 	desc = "A blast from the past, so retro!"
 	board_item_type = /obj/item/melee/skateboard/hoverboard
 	instability = 3
 	icon_state = "hoverboard_red"
+
+/obj/vehicle/ridden/scooter/skateboard/hoverboard/make_ridable()
+	AddElement(/datum/element/ridable, /datum/component/riding/vehicle/scooter/skateboard/hover)
+
+/obj/vehicle/ridden/scooter/skateboard/hoverboard/can_z_move(direction, turf/start, turf/destination, z_move_flags = ZMOVE_FLIGHT_FLAGS, mob/living/rider)
+	. = ..()
+	if(!.)
+		return
+	if(rider && (z_move_flags & ZMOVE_CAN_FLY_CHECKS) && direction == UP)
+		if(z_move_flags & ZMOVE_FEEDBACK)
+			to_chat(rider, span_warning("[src] [p_are()] not powerful enough to fly upwards."))
+		return FALSE
+
+/obj/vehicle/ridden/scooter/skateboard/hoverboard/holyboarded
+	name = "holy skateboard"
+	desc = "A board blessed by the gods with the power to grind for our sins. Has the initials 'J.C.' on the underside."
+	board_item_type = /obj/item/melee/skateboard/holyboard
+	instability = 3
+	icon_state = "hoverboard_holy"
+
+/obj/vehicle/ridden/scooter/skateboard/hoverboard/holyboarded/make_ridable()
+	AddElement(/datum/element/ridable, /datum/component/riding/vehicle/scooter/skateboard/hover/holy)
+
+/obj/vehicle/ridden/scooter/skateboard/hoverboard/holyboarded/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/anti_magic, MAGIC_RESISTANCE|MAGIC_RESISTANCE_HOLY)
 
 /obj/vehicle/ridden/scooter/skateboard/hoverboard/admin
 	name = "\improper Board Of Directors"
@@ -178,12 +231,13 @@
 	name = "improvised skateboard"
 	desc = "An unfinished scooter which can only barely be called a skateboard. It's still rideable, but probably unsafe. Looks like you'll need to add a few rods to make handlebars."
 	board_item_type = /obj/item/melee/skateboard/improvised
+	instability = 12
 
 //CONSTRUCTION
 /obj/item/scooter_frame
 	name = "scooter frame"
 	desc = "A metal frame for building a scooter. Looks like you'll need to add some iron to make wheels."
-	icon = 'icons/obj/vehicles.dmi'
+	icon = 'icons/mob/rideables/vehicles.dmi'
 	icon_state = "scooter_frame"
 	w_class = WEIGHT_CLASS_NORMAL
 
@@ -286,7 +340,7 @@
 
 /obj/vehicle/ridden/scooter/skateboard/wheelys/skishoes
 	name = "ski shoes"
-	desc = "Uses patented retractable wheel technology. Never sacrifice speed for style - not that this provides much of either."
+	desc = "A pair of shoes equipped with foldable skis! Very handy to move in snowy environments unimpeded."
 	instability = 8
 	wheel_name = "skis"
 	component_type = /datum/component/riding/vehicle/scooter/skateboard/wheelys/skishoes

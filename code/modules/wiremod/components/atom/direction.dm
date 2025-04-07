@@ -5,12 +5,15 @@
  */
 /obj/item/circuit_component/direction
 	display_name = "Get Direction"
+	desc = "A component that returns the direction of itself and an entity."
+	category = "Entity"
 
 	/// The input port
 	var/datum/port/input/input_port
 
 	/// The result from the output
 	var/datum/port/output/output
+	var/datum/port/output/distance
 
 	// Directions outputs
 	var/datum/port/output/north
@@ -23,33 +26,30 @@
 	/// Maximum range for a valid direction to be returned
 	var/max_range = 7
 
-/obj/item/circuit_component/direction/Initialize()
+/obj/item/circuit_component/direction/get_ui_notices()
 	. = ..()
-	input_port = add_input_port("Organism", PORT_TYPE_ATOM)
+	. += create_ui_notice("Maximum Range: [max_range] tiles", "orange", "info")
+
+/obj/item/circuit_component/direction/populate_ports()
+	input_port = add_input_port("Targeted Entity", PORT_TYPE_ATOM)
 
 	output = add_output_port("Direction", PORT_TYPE_STRING)
+	distance = add_output_port("Distance", PORT_TYPE_NUMBER)
 
 	north = add_output_port("North", PORT_TYPE_SIGNAL)
 	east = add_output_port("East", PORT_TYPE_SIGNAL)
 	south = add_output_port("South", PORT_TYPE_SIGNAL)
 	west = add_output_port("West", PORT_TYPE_SIGNAL)
 
-/obj/item/circuit_component/direction/Destroy()
-	input_port = null
-	output = null
-	return ..()
-
 /obj/item/circuit_component/direction/input_received(datum/port/input/port)
-	. = ..()
-	if(.)
-		return
 
-	var/atom/object = input_port.input_value
+	var/atom/object = input_port.value
 	if(!object)
 		return
-	var/turf/location = get_turf(src)
+	var/turf/location = get_location()
+	var/measured_distance = get_dist(location, object)
 
-	if(object.z != location.z || get_dist(location, object) > max_range)
+	if(object.z != location.z || measured_distance > max_range)
 		output.set_output(null)
 		return
 
@@ -64,3 +64,6 @@
 		east.set_output(COMPONENT_SIGNAL)
 	if(direction & WEST)
 		west.set_output(COMPONENT_SIGNAL)
+
+	distance.set_output(measured_distance)
+

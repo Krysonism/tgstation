@@ -5,69 +5,79 @@
 	w_class = WEIGHT_CLASS_SMALL
 	resistance_flags = FLAMMABLE
 	slot_flags = ITEM_SLOT_ID
-	component_type = /datum/component/storage/concrete/wallet
 
 	var/obj/item/card/id/front_id = null
 	var/list/combined_access
 	var/cached_flat_icon
+	var/overlay_icon_state = "wallet_overlay"
 
-/obj/item/storage/wallet/ComponentInitialize()
+/obj/item/storage/wallet/Initialize(mapload)
 	. = ..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage/concrete/wallet)
-	STR.max_items = 4
-	STR.set_holdable(list(
-		/obj/item/stack/spacecash,
-		/obj/item/holochip,
-		/obj/item/card,
-		/obj/item/clothing/mask/cigarette,
-		/obj/item/flashlight/pen,
-		/obj/item/seeds,
-		/obj/item/stack/medical,
-		/obj/item/toy/crayon,
-		/obj/item/coin,
-		/obj/item/dice,
-		/obj/item/disk,
-		/obj/item/implanter,
-		/obj/item/lighter,
-		/obj/item/lipstick,
-		/obj/item/match,
-		/obj/item/paper,
-		/obj/item/pen,
-		/obj/item/photo,
-		/obj/item/reagent_containers/dropper,
-		/obj/item/reagent_containers/syringe,
-		/obj/item/screwdriver,
-		/obj/item/stamp),
-		list(/obj/item/screwdriver/power))
+	atom_storage.max_specific_storage = WEIGHT_CLASS_SMALL
+	atom_storage.max_slots = 4
+	atom_storage.set_holdable(
+		can_hold_list = list(
+			/obj/item/stack/spacecash,
+			/obj/item/holochip,
+			/obj/item/card,
+			/obj/item/cigarette,
+			/obj/item/clothing/accessory/dogtag,
+			/obj/item/coin,
+			/obj/item/coupon,
+			/obj/item/dice,
+			/obj/item/disk,
+			/obj/item/flashlight/pen,
+			/obj/item/folder/biscuit,
+			/obj/item/food/chococoin,
+			/obj/item/implanter,
+			/obj/item/laser_pointer,
+			/obj/item/lighter,
+			/obj/item/lipstick,
+			/obj/item/match,
+			/obj/item/paper,
+			/obj/item/pen,
+			/obj/item/photo,
+			/obj/item/reagent_containers/dropper,
+			/obj/item/reagent_containers/syringe,
+			/obj/item/reagent_containers/applicator,
+			/obj/item/screwdriver,
+			/obj/item/seeds,
+			/obj/item/spess_knife,
+			/obj/item/stack/medical,
+			/obj/item/stamp,
+			/obj/item/toy/crayon
+		),
+		cant_hold_list = /obj/item/screwdriver/power
+	)
 
-/obj/item/storage/wallet/Exited(atom/movable/AM)
+/obj/item/storage/wallet/Exited(atom/movable/gone, direction)
 	. = ..()
-	refreshID(removed = TRUE)
+	if(isidcard(gone))
+		refreshID()
 
 /**
  * Calculates the new front ID.
  *
  * Picks the ID card that has the most combined command or higher tier accesses.
- * Arguments:
- * * removed - If this proc was called because a card was removed. There's a chance we don't need to calculate the new front ID if a card was removed.
  */
-/obj/item/storage/wallet/proc/refreshID(removed = FALSE)
+/obj/item/storage/wallet/proc/refreshID()
 	LAZYCLEARLIST(combined_access)
-
-	// If the front_id is still in our wallet an we removed a card, we can return early.
-	if((front_id in src) && removed)
-		return
 
 	front_id = null
 	var/winning_tally = 0
-	for(var/card in contents)
-		var/obj/item/card/id/id_card = card
-		if(!istype(id_card))
-			continue
-		var/card_tally = SSid_access.tally_access(id_card, ACCESS_FLAG_COMMAND)
-		if(card_tally > winning_tally)
-			winning_tally = card_tally
+	var/is_magnetic_found = FALSE
+	for(var/obj/item/card/id/id_card in contents)
+		// Certain IDs can forcibly jump to the front so they can disguise other cards in wallets. Chameleon/Agent ID cards are an example of this.
+		if(!is_magnetic_found && HAS_TRAIT(id_card, TRAIT_MAGNETIC_ID_CARD))
 			front_id = id_card
+			is_magnetic_found = TRUE
+
+		if(!is_magnetic_found)
+			var/card_tally = SSid_access.tally_access(id_card, ACCESS_FLAG_COMMAND)
+			if(card_tally > winning_tally)
+				winning_tally = card_tally
+				front_id = id_card
+
 		LAZYINITLIST(combined_access)
 		combined_access |= id_card.access
 
@@ -85,9 +95,10 @@
 	update_appearance(UPDATE_ICON)
 	update_slot_icon()
 
-/obj/item/storage/wallet/Entered(atom/movable/AM)
+/obj/item/storage/wallet/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
 	. = ..()
-	refreshID(removed = FALSE)
+	if(isidcard(arrived))
+		refreshID()
 
 /obj/item/storage/wallet/update_overlays()
 	. = ..()
@@ -96,23 +107,21 @@
 		return
 	. += mutable_appearance(front_id.icon, front_id.icon_state)
 	. += front_id.overlays
-	. += mutable_appearance(icon, "wallet_overlay")
+	. += mutable_appearance(icon, overlay_icon_state)
 
 /obj/item/storage/wallet/proc/get_cached_flat_icon()
 	if(!cached_flat_icon)
 		cached_flat_icon = getFlatIcon(src)
 	return cached_flat_icon
 
-/obj/item/storage/wallet/get_examine_string(mob/user, thats = FALSE)
-	if(front_id)
-		return "[icon2html(get_cached_flat_icon(), user)] [thats? "That's ":""][get_examine_name(user)]" //displays all overlays in chat
-	return ..()
+/obj/item/storage/wallet/get_examine_icon(mob/user)
+	return icon2html(get_cached_flat_icon(), user)
 
 /obj/item/storage/wallet/proc/update_label()
 	if(front_id)
-		name = "wallet displaying [front_id]"
+		name = "[src::name] displaying [front_id]"
 	else
-		name = "wallet"
+		name = src::name
 
 /obj/item/storage/wallet/examine()
 	. = ..()
@@ -149,8 +158,21 @@
 		return ..()
 
 /obj/item/storage/wallet/random
-	icon_state = "random_wallet"
+	icon_state = "random_wallet" // for mapping purposes
+	worn_icon_state = "wallet"
+
+/obj/item/storage/wallet/random/Initialize(mapload)
+	. = ..()
+	icon_state = "wallet"
 
 /obj/item/storage/wallet/random/PopulateContents()
-	new /obj/item/holochip(src, rand(5,30))
-	icon_state = "wallet"
+	new /obj/item/holochip(src, rand(5, 30))
+	new /obj/effect/spawner/random/entertainment/wallet_storage(src)
+
+///Used by the toilet fish source.
+/obj/item/storage/wallet/money
+	desc = "It can hold a few small and personal things. This one reeks of toilet water."
+
+/obj/item/storage/wallet/money/PopulateContents()
+	for(var/iteration in 1 to pick(3, 4))
+		new /obj/item/holochip(src, rand(50, 450))
