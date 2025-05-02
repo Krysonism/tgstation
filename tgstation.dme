@@ -2831,6 +2831,7 @@
 #include "code\game\objects\structures\reflector.dm"
 #include "code\game\objects\structures\safe.dm"
 #include "code\game\objects\structures\secure_safe.dm"
+#include "code\game\objects\structures\shelves.dm"
 #include "code\game\objects\structures\showcase.dm"
 #include "code\game\objects\structures\shower.dm"
 #include "code\game\objects\structures\spawner.dm"
