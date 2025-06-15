@@ -1,4 +1,5 @@
 #define SPIDER_WEB_TINT	"web_colour_tint"
+#define POLYMER_WEB_SLIME_AMOUNT 0.1
 
 /obj/structure/spider
 	name = "web"
@@ -278,4 +279,63 @@
 	. = ..()
 	fade_into_nothing(1 MINUTES)
 
+/obj/structure/spider/stickyweb/chem
+	name = "polymer web"
+	icon = 'icons/obj/smooth_structures/polymer_web.dmi'
+	base_icon_state = "polymer_web"
+	icon_state = "polymer_web-0"
+	smoothing_flags = SMOOTH_BITMASK
+	smoothing_groups = SMOOTH_GROUP_SPIDER_WEB
+	canSmoothWith = SMOOTH_GROUP_SPIDER_WEB + SMOOTH_GROUP_WALLS
+	desc = "A tacky mess of semi-polymerized goop and solvents. You don't envy the janny who has to clean this up."
+	max_integrity =  25
+	layer = ABOVE_MOB_LAYER
+	resistance_flags = FLAMMABLE
+	has_frill = FALSE
+	//how many  u did the spawner place in us, so we can ligthen the web as we deplete reagents.
+	var/initial_reagent_loading
+
+/obj/structure/spider/stickyweb/chem/Initialize(mapload)
+	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
+	create_reagents(500)
+
+/obj/structure/spider/stickyweb/chem/stuck_react(atom/movable/stuck_guy)
+	. = ..()
+	slime_atom(slimed_atom = stuck_guy, slime_intensity = POLYMER_WEB_SLIME_AMOUNT * (HAS_TRAIT(stuck_guy, TRAIT_WEB_SURFER) ? 0.25 : 1))
+
+///Set the colour to the reagent mix color.
+/obj/structure/spider/stickyweb/chem/proc/update_web_color()
+	if(QDELETED(src))
+		return
+
+	if(reagents.total_volume <= 0)
+		color = COLOR_WHITE
+		return
+
+	if(isnull(initial_reagent_loading))
+		initial_reagent_loading = reagents.total_volume
+
+	world.log << "total / initial volume ratio: [reagents.total_volume / initial_reagent_loading]"
+	color = BlendRGB(COLOR_WHITE, mix_color_from_reagents(reagents.reagent_list), reagents.total_volume / initial_reagent_loading)
+
+///slime noobs who enter the web
+/obj/structure/spider/stickyweb/chem/proc/on_entered(datum/source, atom/movable/movable)
+	SIGNAL_HANDLER
+	slime_atom(slimed_atom = movable, slime_intensity = POLYMER_WEB_SLIME_AMOUNT * (HAS_TRAIT(movable, TRAIT_WEB_SURFER) ? 0.25 : 1))
+
+///Perform the actual sliming of people who come in contact with the web.
+/obj/structure/spider/stickyweb/chem/proc/slime_atom(atom/movable/slimed_atom, slime_intensity = POLYMER_WEB_SLIME_AMOUNT)
+	reagents.expose(slimed_atom, VAPOR, slime_intensity)
+	reagents.remove_all(slime_intensity, TRUE)
+	update_web_color()
+	take_damage(get_integrity() * slime_intensity + 0.5)
+
+
+
 #undef SPIDER_WEB_TINT
+#undef POLYMER_WEB_SLIME_AMOUNT

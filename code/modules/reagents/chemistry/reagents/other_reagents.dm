@@ -3258,3 +3258,11 @@
 /datum/reagent/luminescent_fluid/pink
 	name = "Pink Luminiscent Fluid"
 	color = LIGHT_COLOR_PINK
+
+/datum/reagent/epoxy_resin
+	name = "Epoxy Resin"
+	description = "A single part epoxy resin that uses heavy metals to catalyze polymerization.\n\n Withdrawn from the commercial market a hundred years ago due to causing too many lawsuits over its lead content and proneness to thermal runaway."
+	taste_description = "glue"
+	color = "#f8f192"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+	addiction_types = list(/datum/addiction/maintenance_drugs = 5)

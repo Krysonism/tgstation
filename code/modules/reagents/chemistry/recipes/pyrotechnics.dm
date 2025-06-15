@@ -641,3 +641,111 @@
 	required_reagents = list(/datum/reagent/consumable/ethanol/planet_cracker = 1, /datum/reagent/consumable/ethanol/triumphal_arch = 1)
 	strengthdiv = 20
 	mix_message = span_bolddanger("The two patriotic drinks instantly reject each other!")
+
+/datum/chemical_reaction/epoxy_resin
+	results = list(/datum/reagent/epoxy_resin = 2)
+	//I wanted to use oil or plastic polymers instead of welding fuel, but oil burns into ash, and plastic polymers is not obtainable by normal means.
+	required_reagents = list(/datum/reagent/fuel = 1.5, /datum/reagent/lithium = 0.45, /datum/reagent/lead = 0.05)
+	required_temp = 100
+	optimal_temp = 999
+	overheat_temp = NO_OVERHEAT
+	temp_exponent_factor = 3
+	thermic_constant = 200
+
+	ph_exponent_factor = 1.2
+	H_ion_release = -0.01
+	optimal_ph_min = 9
+	optimal_ph_max = 13
+	rate_up_lim = 999
+
+
+/datum/chemical_reaction/explosive_polymerization
+	required_reagents = list(/datum/reagent/epoxy_resin = 1)
+	mix_sound = 'sound/effects/chemistry/polymer_explosion.ogg'
+	required_temp = 873
+	reaction_flags = REACTION_INSTANT
+	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_EXPLOSIVE | REACTION_TAG_DANGEROUS
+
+/datum/chemical_reaction/explosive_polymerization/on_reaction(datum/reagents/holder, datum/equilibrium/reaction, created_volume)
+
+	var/react_location = get_turf(holder.my_atom)
+
+	//no infinte chain reaction please or duping for that matter...
+	holder.del_reagent(/datum/reagent/lead)
+
+	//method 1
+	if(holder.has_reagent(/datum/reagent/aluminium))
+		var/list/candidate_turfs = view(sqrt(created_volume / 2), react_location)
+		world.log << "Polymer web view method.  created volume: [created_volume]u"
+		for(var/turf/affected_turf in candidate_turfs)
+			if(isclosedturf(affected_turf))
+				continue
+
+			//Less web density away from the epicenter.  Anyone got a better way of calculating this that gives a more natural distribution?
+			var/distance = get_dist_euclidean(react_location, affected_turf)
+			if(prob(created_volume * 2 / (distance + 1)))
+				slime_turf(slime_zone = affected_turf, delay = distance * 0.2, slime_holder = holder)
+	//method 2
+	else
+		world.log << "Polymer web perimiter method. created volume: [created_volume]u, distance: [round(sqrt(created_volume / 2))]"
+		slime_turf(slime_zone = react_location, delay = 0, slime_holder = holder)
+		//A list of turfs we've already slimed, don't slime em again.
+		var/list/exhausted_turfs = list()
+		for(var/distance in 1 to round(sqrt(created_volume / 2)))
+			for(var/turf/affected_turf in get_perimeter(react_location, distance))
+				if(isclosedturf(affected_turf))
+					continue
+
+				if(affected_turf in exhausted_turfs)
+					continue
+
+				exhausted_turfs += affected_turf
+
+				if(!prob(created_volume / distance))
+					continue
+
+				var/blocker = FALSE
+
+				for(var/turf/potential_blockage as anything in get_line(react_location, affected_turf))
+					if(!potential_blockage.is_blocked_turf(exclude_mobs = TRUE))
+						continue
+					blocker = TRUE
+
+				if(blocker)
+					continue
+
+				slime_turf(slime_zone = affected_turf, delay = distance * 0.2, slime_holder = holder)
+
+	holder.clear_reagents()
+
+///Creates a spawner to hold reagents until we want to plop the web down.
+/datum/chemical_reaction/explosive_polymerization/proc/slime_turf(turf/slime_zone, delay, datum/reagents/slime_holder)
+
+	var/obj/effect/polymer_web_spawner/slime_spawner = new(slime_zone, delay)
+	slime_holder.copy_to(slime_spawner, slime_holder.total_volume)
+
+
+/obj/effect/polymer_web_spawner
+	name = "polymer web spawner"
+	desc = "You shouldn't be seeing this shit."
+
+/obj/effect/polymer_web_spawner/Initialize(mapload, delay)
+	. = ..()
+	create_reagents(500, NO_REACT)
+	world.log << "polyweb_spawner delay: [delay]"
+	addtimer(CALLBACK(src, PROC_REF(spawn_web), get_turf(src)), delay)
+
+///Actually spawn the web and slime anything that is already in our spot.
+/obj/effect/polymer_web_spawner/proc/spawn_web(turf/slime_zone)
+	//set up web
+	var/obj/structure/spider/stickyweb/chem/polymer_web = new(slime_zone)
+	reagents.copy_to(polymer_web, reagents.total_volume)
+	polymer_web.update_web_color()
+	//Expose turf with twice the normal amount of slime, since the turf is not likely to move around much in the webs.
+	polymer_web.reagents.expose(slime_zone, methods = VAPOR, volume_modifier = 0.2)
+	//slime everything else.
+	for(var/atom/movable/gak_victim in slime_zone)
+		holder.reagents.expose(slime_zone, methods = VAPOR, volume_modifier = 0.1)
+		world.log << "slimed victim : [gak_victim.name]"
+
+	qdel(src)
