@@ -684,11 +684,11 @@
 			//Less web density away from the epicenter.  Anyone got a better way of calculating this that gives a more natural distribution?
 			var/distance = get_dist_euclidean(react_location, affected_turf)
 			if(prob(created_volume * 2 / (distance + 1)))
-				slime_turf(slime_zone = affected_turf, delay = distance * 0.2, slime_holder = holder)
+				slime_turf(slime_zone = affected_turf, delay = distance * 0.1 SECONDS, slime_holder = holder)
 	//method 2
 	else
 		world.log << "Polymer web perimiter method. created volume: [created_volume]u, distance: [round(sqrt(created_volume / 2))]"
-		slime_turf(slime_zone = react_location, delay = 0, slime_holder = holder)
+		slime_turf(slime_zone = react_location, delay = 0 SECONDS, slime_holder = holder)
 		//A list of turfs we've already slimed, don't slime em again.
 		var/list/exhausted_turfs = list()
 		for(var/distance in 1 to round(sqrt(created_volume / 2)))
@@ -714,7 +714,7 @@
 				if(blocker)
 					continue
 
-				slime_turf(slime_zone = affected_turf, delay = distance * 0.2, slime_holder = holder)
+				slime_turf(slime_zone = affected_turf, delay = distance * 0.1 SECONDS, slime_holder = holder)
 
 	holder.clear_reagents()
 
@@ -745,7 +745,7 @@
 	polymer_web.reagents.expose(slime_zone, methods = VAPOR, volume_modifier = 0.2)
 	//slime everything else.
 	for(var/atom/movable/gak_victim in slime_zone)
-		holder.reagents.expose(slime_zone, methods = VAPOR, volume_modifier = 0.1)
+		reagents.expose(slime_zone, methods = VAPOR, volume_modifier = 0.1)
 		world.log << "slimed victim : [gak_victim.name]"
 
 	qdel(src)
