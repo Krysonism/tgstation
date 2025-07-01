@@ -20,4 +20,5 @@ GLOBAL_LIST_INIT(all_tool_behaviours, list(
 	TOOL_WELDER,
 	TOOL_WIRECUTTER,
 	TOOL_WRENCH,
+	TOOL_EYESPOON,
 ))

@@ -601,6 +601,24 @@
 	sleep(timer)
 	return BRUTELOSS
 
+/obj/item/enucleation_spoon
+	name = "enucleation spoon"
+	desc = "The enucleation spoon is a specialized surgical tool that ophthalmic surgeons can use to scoop out all the intraocular contents from the eye socket.\n\n This particular model has a shapened edge inside the notch in order to assist in severing the optic nerve."
+	icon = 'icons/obj/medical/surgery_tools.dmi'
+	icon_state = "eye_spoon"
+	obj_flags = CONDUCTS_ELECTRICITY
+	item_flags = SURGICAL_TOOL
+	tool_behaviour = TOOL_EYESPOON
+	toolspeed = 1
+	force = 5
+	w_class = WEIGHT_CLASS_SMALL
+	throwforce = 6
+	throw_range = 8
+	custom_materials = list(/datum/material/alloy/plasteel=SHEET_MATERIAL_AMOUNT*1, /datum/material/titanium=SHEET_MATERIAL_AMOUNT*1)
+	attack_verb_continuous = list("spoons", "smacks")
+	attack_verb_simple = list("spoon", "smack")
+	custom_premium_price = PAYCHECK_CREW * 12
+
 /obj/item/bonesetter
 	name = "bonesetter"
 	desc = "For setting things right."

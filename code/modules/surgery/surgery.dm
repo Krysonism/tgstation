@@ -165,6 +165,17 @@
 
 	return operating_computer
 
+///replaces the current surgery and passes hands off information to the new surgeries to create a branching surgery tree instead of a linear one
+/datum/surgery/branch(/datum/surgery/new_surgery, /mob/surgeon)
+	var/branch_surgery = new new_surgery(target, location, operated_bodypart)
+	branch_surgery.speed_modifier = speed_modifier
+	if(surgeon)
+		branch_surgery.next_step()
+
+	qdel(src)
+
+
+
 /datum/surgery/advanced
 	name = "advanced surgery"
 	requires_tech = TRUE

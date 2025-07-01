@@ -54,7 +54,7 @@
 	qdel(target.GetComponent(/datum/component/fishing_spot))
 
 /datum/surgery/organ_manipulation/soft
-	possible_locs = list(BODY_ZONE_PRECISE_GROIN, BODY_ZONE_PRECISE_EYES, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
+	possible_locs = list(BODY_ZONE_PRECISE_GROIN, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
 	steps = list(
 		/datum/surgery_step/incise,
 		/datum/surgery_step/retract_skin,
@@ -63,6 +63,24 @@
 		/datum/surgery_step/manipulate_organs/internal,
 		/datum/surgery_step/close,
 	)
+
+/datum/surgery/organ_manipulation/eyes
+	possible_locs = list(BODY_ZONE_PRECISE_EYES)
+	steps = list(
+		/datum/surgery_step/incise_or_scoop,
+		/datum/surgery_step/retract_skin,
+		/datum/surgery_step/clamp_bleeders,
+		/datum/surgery_step/incise,
+		/datum/surgery_step/manipulate_organs/internal/eyes,
+		/datum/surgery_step/close,
+	)
+
+/datum/surgery_step/incise_or_scoop/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery)
+	if(tool.tool_behaviour == TOOL_EYESPOON)
+		skip_to()
+	else
+		return ..()
+
 
 /datum/surgery/organ_manipulation/external
 	name = "Feature manipulation"
