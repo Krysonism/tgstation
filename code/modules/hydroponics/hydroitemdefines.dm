@@ -114,6 +114,9 @@
 	attack_verb_simple = list("chop", "tear", "lacerate", "cut")
 	hitsound = 'sound/items/weapons/bladeslice.ogg'
 	sharpness = SHARP_EDGED
+	tool_behaviour = TOOL_AXE
+	toolspeed = 1.5
+	usesound = 'sound/items/tools/hatchet.ogg'
 
 /datum/embedding/hatchet
 	pain_mult = 4
@@ -138,12 +141,14 @@
 	custom_materials = list(/datum/material/wood = SHEET_MATERIAL_AMOUNT * 1)
 	resistance_flags = FLAMMABLE
 	flags_1 = NONE
+	toolspeed = 1.2
 
 /obj/item/hatchet/cyborg
 	name = "cyborg hatchet"
 	icon = 'icons/obj/items_cyborg.dmi'
 	icon_state = "sili_hatchet"
 	icon_angle = 0
+	toolspeed = 1.2
 
 /obj/item/scythe
 	name = "scythe"

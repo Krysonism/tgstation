@@ -1,6 +1,7 @@
 // List of all tool behaviours.
 GLOBAL_LIST_INIT(all_tool_behaviours, list(
 	TOOL_ANALYZER,
+	TOOL_AXE,
 	TOOL_BLOODFILTER,
 	TOOL_BONESET,
 	TOOL_CAUTERY,

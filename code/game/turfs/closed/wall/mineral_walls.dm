@@ -175,8 +175,8 @@
 /turf/closed/wall/mineral/wood/attackby(obj/item/W, mob/user)
 	if(W.get_sharpness() && W.force)
 		var/duration = ((4.8 SECONDS)/W.force) * 2 //In seconds, for now.
-		if(istype(W, /obj/item/hatchet) || istype(W, /obj/item/fireaxe))
-			duration /= 4 //Much better with hatchets and axes.
+		if(w.tool_behavior == TOOL_AXE)
+			duration *= (0.25 * w.toolspeed) //Much better with hatchets and axes. factoring in both toolspeed and force might result in some very fast speeds with very premium axes.
 		if(do_after(user, duration * (1 SECONDS), target=src)) //Into deciseconds.
 			dismantle_wall(FALSE,FALSE)
 			return

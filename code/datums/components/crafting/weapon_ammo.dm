@@ -120,10 +120,8 @@
 		/obj/item/stack/sheet/cloth = 1,
 		/obj/item/stack/sheet/iron = 1,
 	)
-	tool_paths = list(
-		/obj/item/hatchet,
-	)
-	time = 5 SECONDS
+	tool_behaviors = list(TOOL_AXE)
+	time = 3 SECONDS
 	category = CAT_WEAPON_AMMO
 	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED
 
@@ -155,10 +153,8 @@
 	reqs = list(
 		/obj/item/stack/sheet/plastic = 1,
 	)
-	tool_paths = list(
-		/obj/item/hatchet,
-	)
-	time = 5 SECONDS
+	tool_behaviors = list(TOOL_AXE)
+	time = 3 SECONDS
 	category = CAT_WEAPON_AMMO
 	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED
 

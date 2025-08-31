@@ -34,13 +34,13 @@
 
 /datum/crafting_recipe/riflestock
 	name = "Wooden Rifle Stock"
-	tool_paths = list(/obj/item/hatchet)
+	tool_behaviors = list(TOOL_AXE)
 	result = /obj/item/weaponcrafting/stock
 	reqs = list(
 		/obj/item/stack/sheet/mineral/wood = 8,
 		/obj/item/stack/sticky_tape = 1,
 	)
-	time = 5 SECONDS
+	time = 3 SECONDS
 	category = CAT_WEAPON_RANGED
 
 /datum/crafting_recipe/gun_maint_kit
@@ -213,9 +213,8 @@
 		/obj/item/storage/toolbox = 1, // for the screws
 		/obj/item/stack/sticky_tape = 1,
 	)
-	tool_paths = list(/obj/item/hatchet)
-	tool_behaviors = list(TOOL_SCREWDRIVER)
-	time = 5 SECONDS
+	tool_behaviors = list(TOOL_SCREWDRIVER, TOOL_AXE)
+	time = 4 SECONDS
 	category = CAT_WEAPON_RANGED
 
 /datum/crafting_recipe/rebarxbow
@@ -411,10 +410,8 @@
 		/obj/item/stack/sheet/cloth = 2,
 		/obj/item/stack/sheet/iron = 1,
 	)
-	tool_paths = list(
-		/obj/item/hatchet,
-	)
-	time = 30 SECONDS
+	tool_behaviors = list(TOOL_AXE)
+	time = 20 SECONDS
 	category = CAT_WEAPON_RANGED
 	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED
 

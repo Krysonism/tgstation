@@ -47,8 +47,7 @@
 		TOOL_SAW = 100,
 		/obj/item/shovel/serrated = 75,
 		/obj/item/melee/arm_blade = 80,
-		/obj/item/fireaxe = 50,
-		/obj/item/hatchet = 40,
+		TOOL_AXE = 50,
 		/obj/item/knife/butcher = 25,
 	)
 	time = 6.4 SECONDS
@@ -74,8 +73,7 @@
 	implements = list(
 		TOOL_SAW = 100,
 		/obj/item/shovel/serrated = 100,
-		/obj/item/fireaxe = 90,
-		/obj/item/hatchet = 75,
+		TOOL_AXE = 90,
 		TOOL_SCALPEL = 25,
 	)
 	time = 3 SECONDS

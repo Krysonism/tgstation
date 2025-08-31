@@ -34,7 +34,7 @@
 	implements = list(
 		TOOL_SAW = 100,
 		/obj/item/shovel/serrated = 75,
-		/obj/item/hatchet = 35,
+		TOOL_AXE = 50,
 		/obj/item/knife/butcher = 25,
 	)
 	time = 6.4 SECONDS

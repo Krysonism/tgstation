@@ -156,16 +156,14 @@
 		TOOL_SAW = 100,
 		/obj/item/shovel/serrated = 75,
 		/obj/item/melee/arm_blade = 75,
-		/obj/item/fireaxe = 50,
-		/obj/item/hatchet = 35,
+		TOOL_AXE = 50,
 		/obj/item/knife/butcher = 35,
 		/obj/item = 25) //20% success (sort of) with any sharp item with a force >= 10
 	time = 5.4 SECONDS
 	preop_sound = list(
 		/obj/item/circular_saw = 'sound/items/handling/surgery/saw.ogg',
 		/obj/item/melee/arm_blade = 'sound/items/handling/surgery/scalpel1.ogg',
-		/obj/item/fireaxe = 'sound/items/handling/surgery/scalpel1.ogg',
-		/obj/item/hatchet = 'sound/items/handling/surgery/scalpel1.ogg',
+		TOOL_AXE = 'sound/items/handling/surgery/scalpel1.ogg',
 		/obj/item/knife/butcher = 'sound/items/handling/surgery/scalpel1.ogg',
 		/obj/item = 'sound/items/handling/surgery/scalpel1.ogg',
 	)

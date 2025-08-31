@@ -251,9 +251,7 @@
 		/obj/item/stack/sheet/cloth = 2,
 		/obj/item/stack/sheet/iron = 1,
 	)
-	tool_paths = list(
-		/obj/item/hatchet,
-	)
-	time = 30 SECONDS
+	tool_behaviors = list(TOOL_AXE)
+	time = 20 SECONDS
 	category = CAT_ENTERTAINMENT
 	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED
